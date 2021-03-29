@@ -1,1 +1,1 @@
-from . import projects
+from . import home, projects

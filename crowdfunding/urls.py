@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from accounts.views import LoginView
+
 '''from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from . import settings'''
@@ -22,5 +24,7 @@ from . import settings'''
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('fundraising.urls')),
-    path('users/', include('django.contrib.auth.urls'), name='users'),
+    path('login/', LoginView.as_view(), name='login'),
+    # path('users/', include('django.contrib.auth.urls'), name='users'),
+   
 ]

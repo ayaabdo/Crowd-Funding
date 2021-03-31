@@ -14,7 +14,8 @@ from fundraising.models.report_project import ReportAProject
 def index(request):
     # list all items from database
     projects = Project.objects.all()
-    return render(request, 'projects/index.html', {'all_projects': projects})
+    images = Image.objects.all()
+    return render(request, 'projects/index.html', {'all_projects': projects, 'all_images': images})
 
 def view(request, project_id):
         project = get_object_or_404(Project, id=project_id)

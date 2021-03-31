@@ -1,13 +1,12 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <title>Title</title>
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block title %}
+{{project_details.title}}
+{% endblock %}
+{% block styles %}
    <link rel="stylesheet" href="{% static 'css/project-actions.css' %}">
-</head>
-<body>
+{% endblock %}
+{% block header %}
      <table>
         <tr>
            <th>ID</th>
@@ -19,12 +18,11 @@
             <th>Total Target</th>
             <th>Total Donation</th>
         </tr>
-
         <tr>
           <td>{{ project_details.id }}</td>
           <td>{{project_details.title}}</td>
            <td>{{project_details.details}}</td>
-          <td>{{project_details.cat_name}}</td>
+          <td>{{project_details.cat_id.cat_name}}</td>
            <td>
                {% for tag in project_details.tags.all %}
                 <p>{{ tag.tag_name }}</p>
@@ -44,7 +42,6 @@
           <td>
               <form action="{% url 'report_project' project_details.id %}" method="POST" enctype="multipart/form-data">
                {% csrf_token %}
-
                 <button id="myBtn" class="btn">Report</button>
                <div id="myModal" class="modal">
                   <div class="modal-content">
@@ -64,6 +61,7 @@
 
       </table>
 
-</body>
+{% endblock %}
+{% block scripts %}
 <script src="{% static 'js/project-actions.js' %}"></script>
-</html>
+{% endblock %}

@@ -1,9 +1,10 @@
 from django.db import models
 from .categories import Category
 from .tags import Tag
-#from .images import Image
+from accounts.models import MyUser
 
 class Project(models.Model):
+    user_ID = models.ForeignKey(MyUser, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=50)
     details = models.CharField(max_length=255)
     cat_id = models.ForeignKey(Category, on_delete=models.CASCADE)

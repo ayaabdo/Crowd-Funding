@@ -7,61 +7,57 @@
    <link rel="stylesheet" href="{% static 'css/project-actions.css' %}">
 {% endblock %}
 {% block header %}
-     <table>
-        <tr>
-           <th>ID</th>
-            <th>Title</th>
-            <th>Details</th>
-            <th>Category</th>
-            <th>Tags</th>
-            <th>Pictures</th>
-            <th>Total Target</th>
-            <th>Total Donation</th>
-        </tr>
-        <tr>
-          <td>{{ project_details.id }}</td>
-          <td>{{project_details.title}}</td>
-           <td>{{project_details.details}}</td>
-          <td>{{project_details.cat_id.cat_name}}</td>
-           <td>
-               {% for tag in project_details.tags.all %}
-                <p>{{ tag.tag_name }}</p>
-               {% endfor %}
-           </td>
-           <td>
-               <ul id="slider">
-                   {% for img in project_images %}
-                   <li><img src="{{ img.image_path }}"></li>
-                   {% endfor %}
-               </ul>
-           </td>
-          <td>{{project_details.total_target}}</td>
-          <td>{{project_details.total_donation}}</td>
-          <td>{{project_details.start_date}}</td>
-          <td>{{project_details.end_date}}</td>
-          <td>
-              <form action="{% url 'report_project' project_details.id %}" method="POST" enctype="multipart/form-data">
-               {% csrf_token %}
-                <button id="myBtn" class="btn">Report</button>
-               <div id="myModal" class="modal">
-                  <div class="modal-content">
-                    <span class="close">&times;</span>
-                     <label for="report-content">What is your complain ?</label><br>
-                    <textarea id="report-content" name="report-content">
-                    </textarea><br>
-                    <button>Report</button>
-                  </div>
+
+ <div id="homeCarousel" class="carousel slide carousel-home" data-ride="carousel">
+          <div class="carousel-inner" role="listbox">
+              <div class="container">
+                        {% for img in project_images %}
+                         <img src="{{ img.image_path }}" width="10px" height="200px">
+                        {% endfor %}
+                  <div class="carousel-caption">
+                  <h2 class="carousel-title bounceInDown animated slow">{{project_details.title}}</h2>
                 </div>
+              </div>
+            </div>
+ </div>
+{% endblock %}
+{% block content %}
+<h3>Details</h3>
+<p>{{project_details.details}}</p>
+<h3>Category</h3>
+<p>{{project_details.cat_id.cat_name}}</p>
+<h3>Tags</h3>
+{% for tag in project_details.tags.all %}
+<p>{{ tag.tag_name }}</p>
+{% endfor %}
+<h3>Total Target</h3>
+<p>{{project_details.total_target}}</p>
+<h3>Total Donation</h3>
+<p>{{project_details.total_donation}}</p>
+ <h3>Start date</h3>
+<td>{{project_details.start_date}}</td>
+ <f3>End date</f3>
+ <td>{{project_details.end_date}}</td>
+    <form action="{% url 'report_project' project_details.id %}" method="POST" enctype="multipart/form-data">
+       {% csrf_token %}
+        <button id="myBtn" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow">Report</button>
+       <div id="myModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+             <label for="report-content">What is your complain ?</label><br>
+            <textarea id="report-content" name="report-content">
+            </textarea><br>
+            <button>Report</button>
+          </div>
+        </div>
 
-              </form>
-                <!--<a href="/project/{{ project_details.id }}/report">Report</a>-->
-                <a href="/project/{{ project_details.id }}/comment">Comment</a>
-         </td>
-        </tr>
-
-      </table>
+      </form>
+        <!--<a href="/project/{{ project_details.id }}/report">Report</a>-->
+  <a href="/project/{{ project_details.id }}/comment" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow">Comment</a>
+  <a href="#" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow" data-toggle="modal" data-target="#donateModal">DONATE NOW</a>
 
 {% endblock %}
+
 {% block scripts %}
 <script src="{% static 'js/project-actions.js' %}"></script>
 {% endblock %}

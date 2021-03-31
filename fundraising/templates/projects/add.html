@@ -5,12 +5,12 @@
     <title>Create Project</title>
 </head>
 <body>
-    <form action="{% url 'add_project' %}" method="POST">
+    <form action="{% url 'add_project' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div>Title: <input type="text" name='title' ></div></br>
         <div>Details: <input type="text" name="details" ></div> <br>
         <div>Category:<br>
-            <select name="cat_id" id="">
+            <select name="cat_id">
                 <option value="-1" selected>Select category</option>
                 {% for cat in all_categories %}
                 <option value="{{ cat.id }}">{{ cat.cat_name }}</option>
@@ -26,7 +26,7 @@
         </select>
         </div> <br>
         Images:
-                <div id="images">                 </div>
+                <div id="images"></div>
                     <input type="button" name="add_image" id="add_image" value="Select image" />
         </br>
         <div>Total target: <input type="number" name="target" ></div> <br>
@@ -36,10 +36,6 @@
         <div>End date: <input type="date" name="end_date" ></div> <br>
         <button>Save</button>
     </form>
-
-    <div class="footer">
-        <p>Created by Geeks</p>
-    </div>
 </body>
 <script>
     document.getElementById("add_image").onclick=function (ev) {
@@ -50,11 +46,9 @@
         preview.style.width="auto";
         preview.style.height="100px";
 
-
         var newInput=document.createElement("input");
         newInput.type="file";
         newInput.name="file[]";
-
 
         var br=document.createElement("br");
         var br1=document.createElement("br");
@@ -62,13 +56,12 @@
         newInput.onchange=function (ev1) {
             if(this.files && this.files[0]){
                 var fileReader=new FileReader();
-
                 fileReader.onload=function (ev2) {
                     preview.src=ev2.target.result;
                 };
-
                 fileReader.readAsDataURL(this.files[0])
-            }
+                }
+
         };
 
         image.appendChild(preview);

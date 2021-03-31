@@ -4,7 +4,11 @@ from fundraising.models.project import Project
 # Create your views here.
 
 def index(request):
-    projects = Project.objects.filter(active=1)
+    projects = Project.objects.all()
 
     return render(request, 'home/index.html', {'all_projects': projects})
 
+def about(request):
+    #projects = Project.objects.all()
+
+    return render(request, 'layout/about.html')

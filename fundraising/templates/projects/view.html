@@ -1,8 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <title>Title</title>
+   <link rel="stylesheet" href="{% static 'css/project-actions.css' %}">
 </head>
 <body>
      <table>
@@ -27,14 +30,40 @@
                 <p>{{ tag.tag_name }}</p>
                {% endfor %}
            </td>
-          <td>{{project.total_target}}</td>
-          <td>{{project.total_donation}}</td>
-          <td>{{project.start_date}}</td>
-          <td>{{project.end_date}}</td>
+           <td>
+               <ul id="slider">
+                   {% for img in project_images %}
+                   <li><img src="{{ img.image_path }}"></li>
+                   {% endfor %}
+               </ul>
+           </td>
+          <td>{{project_details.total_target}}</td>
+          <td>{{project_details.total_donation}}</td>
+          <td>{{project_details.start_date}}</td>
+          <td>{{project_details.end_date}}</td>
+          <td>
+              <form action="{% url 'report_project' project_details.id %}" method="POST" enctype="multipart/form-data">
+               {% csrf_token %}
 
+                <button id="myBtn" class="btn">Report</button>
+               <div id="myModal" class="modal">
+                  <div class="modal-content">
+                    <span class="close">&times;</span>
+                     <label for="report-content">What is your complain ?</label><br>
+                    <textarea id="report-content" name="report-content">
+                    </textarea><br>
+                    <button>Report</button>
+                  </div>
+                </div>
+
+              </form>
+                <!--<a href="/project/{{ project_details.id }}/report">Report</a>-->
+                <a href="/project/{{ project_details.id }}/comment">Comment</a>
+         </td>
         </tr>
 
       </table>
 
 </body>
+<script src="{% static 'js/project-actions.js' %}"></script>
 </html>

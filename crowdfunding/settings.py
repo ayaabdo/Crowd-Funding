@@ -38,7 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'fundraising',
+    'accounts',    
 ]
+
+AUTH_USER_MODEL = 'accounts.MyUser' 
+AUTHENTICATION_BACKENDS = ['accounts.backends.EmailBackend']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -55,7 +59,7 @@ ROOT_URLCONF = 'crowdfunding.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates'),'accounts.templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -126,3 +130,5 @@ STATICFILES_DIRS = [
 ]
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # media directory in the root directory
 MEDIA_URL = '/media/'
+
+LOGIN_REDIRECT_URL='/home'

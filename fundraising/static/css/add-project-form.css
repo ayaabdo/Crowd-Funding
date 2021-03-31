@@ -20,8 +20,8 @@ body{
 	font-weight: 400;
 
 }
-a{
-  text-decoration: none;
+form{
+	padding: 4em 10%;
 }
 .form-group{
 	margin-bottom: 20px;

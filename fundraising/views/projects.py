@@ -23,36 +23,25 @@ def view(request, project_id):
         return render(request, 'projects/view.html', {'project_details': project, 'project_images': images})
 
 def create(request):
-    #ImageFormSet = modelformset_factory(Image, form=ImageForm)
-
     if request.method == "GET":
-        '''projectForm = ProjectForm()
-        formset = ImageFormSet(queryset=Image.objects.none())
-        return render(request, 'project/add.html',
-                      {'all_projects': projectForm, 'all_project_images': formset})'''
         tags = Tag.objects.all()
         cats = Category.objects.all()
-        #projects_images = Image.objects.all()
         return render(request, 'projects/add.html', {'all_categories': cats, 'all_tags': tags})
     else:
         if request.method == "POST":
-            # images will be in request.FILES
-            #form = ImageForm(request.POST or None, request.FILES or None)
             cat = Category.objects.get(id=request.POST.get('cat_id'))
-            project_obj = Project.objects.create(
+            donation = request.POST['donation'] if 'donation' in request.POST else 0
+            project_obj = Project.objects.create(user_ID=request.user,
                 title=request.POST.get('title'), details=request.POST.get('details'),
                 cat_id=cat, total_target=request.POST.get('target'),
-                total_donation=request.POST.get('donation'), created_at=request.POST.get('created_at'),
+                total_donation=donation, created_at=request.POST.get('created_at'),
                 start_date=request.POST.get('start_date'), end_date=request.POST.get('end_date'))
 
             image = request.FILES.getlist("file[]")
-            #return HttpResponse(len(image))
             for img in image:
                 fs = FileSystemStorage()
                 img_path = fs.save(img.name, img)
-                #return HttpResponse(img_path)
                 img_url = fs.url(img_path)
-                #return HttpResponse(img_url)
                 images = Image(proj_id=project_obj, image_path=img_url)
                 images.save()
 
@@ -67,12 +56,9 @@ def create(request):
 def reportAproject(request, project_id):
     #if request.method == "POST":
     project = Project.objects.get(id=project_id)
-    ReportAProject.objects.create(project_ID=project,
+    ReportAProject.objects.create(user_ID=request.user, project_ID=project,
                                            description=request.POST.get('report-content'))
-    #currentUrl = request.get_full_path()
-    #images = Image.objects.filter(proj_id=project_id)
     return redirect('project_list')
-    #return render(request, 'projects/report.html', locals())
 
 def reportAcomment(request, project_id, comment_id):
     pass

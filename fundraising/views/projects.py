@@ -50,11 +50,9 @@ def create(request):
                 selected_tag = Tag.objects.get(id=elem)
                 project_obj.tags.add(selected_tag)
             project_obj.save()
-            #return HttpResponse(Image.image_path)
             return redirect('project_list')
 
 def reportAproject(request, project_id):
-    #if request.method == "POST":
     project = Project.objects.get(id=project_id)
     ReportAProject.objects.create(user_ID=request.user, project_ID=project,
                                            description=request.POST.get('report-content'))

@@ -1,0 +1,35 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block title %}
+Projects
+{% endblock %}
+{% block about %}
+<div class="carousel-inner" role="listbox">
+    <div class="item active">
+    {% for project in all_projects %}
+    <div class="container">
+       <div class="col-md-6">
+    <div class="reasons-col animate-onscroll fadeIn">
+        {% for img in all_images %}
+        {% if img.proj_id.id == project.id  %}
+        <img src="{{ img.image_path }}"  />
+        {% endif %}
+        {% endfor %}
+        <div class="reasons-titles">
+            <h3 class="reasons-title">{{project.title}}</h3>
+            <h5 class="reason-subtitle">{{project.cat_id.cat_name}}</h5>
+        </div>
+        <div class="on-hover hidden-xs">
+                <p> {{project.details}} </p>
+        </div>
+    </div>
+           <a href="/project/{{ project.id }}" class="btn btn-primary"> Read more </a>
+        </div>
+    </div>
+    {% endfor %}
+
+    </div>
+</div>
+<button><a href="/project/add">Create new project</a></button>
+
+{% endblock %}

@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'crowdfunding.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'crowdfunding',
+        'NAME': 'newfund',
         'USER': 'fundraising',
         'PASSWORD': 'fund_12345',
         'HOST': '127.0.0.1',
@@ -128,6 +128,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # media directory in the root directory
+MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL='/home'
 LOGOUT_REDIRECT_URL='/home'

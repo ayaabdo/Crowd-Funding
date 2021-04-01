@@ -1,0 +1,94 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block title %}
+Create new project
+{% endblock %}
+ {% block header %}
+    <form action="{% url 'add_project' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>Title: <input type="text" name='title' ></div></br>
+        <div>Details: <input type="text" name="details" ></div> <br>
+        <div>Category:<br>
+            <select name="cat_id">
+                <option value="-1" selected>Select category</option>
+                {% for cat in all_categories %}
+                <option value="{{ cat.id }}">{{ cat.cat_name }}</option>
+                {% endfor %}
+        </select>
+        </div>
+        <div>Tags:<br>
+            <select name="tags_id" id="" multiple="multiple">
+                <option value="-1" selected>Select tag</option>
+                {% for tag in all_tags %}
+                <option value="{{ tag.id }}">{{ tag.tag_name }}</option>
+                {% endfor %}
+        </select>
+        </div> <br>
+        Images:
+                <div id="images"></div>
+                    <input type="button" name="add_image" id="add_image" value="Select image" />
+        </br>
+        <div>Total target: <input type="number" name="target" ></div> <br>
+        <div>Total donation: <input type="number" name="donation" ></div> <br>
+        <div>Created at: <input type="date" name="created_at" ></div> <br>
+        <div>Start date: <input type="date" name="start_date" ></div> <br>
+        <div>End date: <input type="date" name="end_date" ></div> <br>
+        <button>Save</button>
+    </form>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'js/project-images.js' %}"></script>
+{% endblock %}
+
+<select name="cat_id" multiple="multiple">
+            <input class="form-check-input" type="checkbox" id="-1" value="-1">
+            <label class="form-check-label" for="-1">Category</label>
+            {% for cat in all_categories %}
+            <input class="form-check-input" type="checkbox" id="{{ cat.cat_name }}" value="{{ cat.id }}">
+            <label class="form-check-label" for="{{ cat.cat_name }}">{{ cat.cat_name }}</label>
+            {% endfor %}
+             </select>
+
+
+
+<table>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Details</th>
+            <th>Category</th>
+            <th>Tags</th>
+            <th>Pictures</th>
+            <th>Total Target</th>
+            <th>Total Donation</th>
+        </tr>
+    {% for project in all_projects %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{project.title}}</td>
+            <td>{{project.details}}</td>
+            <td>{{project.cat_id.cat_name}}</td>
+            <td>
+                {% for tag in project.tags.all %}
+                    <p>{{ tag.tag_name }}</p>
+                {% endfor %}
+            </td>
+            <td>
+                {% for img in all_images %}
+                {% if img.proj_id == project.id %}
+                <img src="{{ img.image_path }}" width="100" height="100"/>
+                {% endif %}
+                {% endfor %}
+            </td>
+            <td>{{project.total_target}}</td>
+            <td>{{project.total_donation}}</td>
+            <td>{{project.start_date}}</td>
+            <td>{{project.end_date}}</td>
+            <td>
+                <a href="/project/{{ project.id }}">View</a>
+            </td>
+            <td>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>

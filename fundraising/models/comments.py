@@ -4,5 +4,5 @@ from accounts.models import MyUser
 
 class Comment(models.Model):
     project_ID = models.ForeignKey(Project, on_delete=models.CASCADE)
-    user_ID = models.ForeignKey(MyUser, on_delete=models.CASCADE, null=True)
+    user_ID = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     comment = models.CharField(max_length=255)

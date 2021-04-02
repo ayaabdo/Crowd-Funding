@@ -21,6 +21,7 @@ document.getElementById("add_image").onclick=function (ev) {
                 };
                 fileReader.readAsDataURL(this.files[0])
                 }
+
         };
 
         image.appendChild(preview);

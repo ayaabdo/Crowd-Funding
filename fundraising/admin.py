@@ -8,6 +8,9 @@ from .models.report_comment import ReportAComment
 from .models.user_donation import Donation
 from .models.categories import Category
 from .models.tags import Tag
+from accounts.models import MyUser
+from django.contrib.auth.admin import UserAdmin
+
 # Register your models here.
 
 
@@ -20,4 +23,4 @@ admin.site.register(ReportAComment)
 admin.site.register(Donation)
 admin.site.register(Category)
 admin.site.register(Tag)
-#admin.site.register(User)
+admin.site.register(MyUser, UserAdmin)

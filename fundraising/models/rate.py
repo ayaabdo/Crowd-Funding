@@ -3,7 +3,7 @@ from .project import Project
 from accounts.models import MyUser
 
 class Rate(models.Model):
-    user_ID = models.ForeignKey(MyUser, on_delete=models.CASCADE, null=True)
+    user_ID = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     proj_ID = models.ForeignKey(Project, on_delete=models.CASCADE)
     number_of_users = models.IntegerField()
     individual_rate = models.IntegerField()

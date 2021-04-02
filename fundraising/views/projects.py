@@ -51,15 +51,3 @@ def create(request):
                 project_obj.tags.add(selected_tag)
             project_obj.save()
             return redirect('project_list')
-
-def reportAproject(request, project_id):
-    project = Project.objects.get(id=project_id)
-    ReportAProject.objects.create(user_ID=request.user, project_ID=project,
-                                           description=request.POST.get('report-content'))
-    return redirect('project_list')
-
-def reportAcomment(request, project_id, comment_id):
-    pass
-
-def comment(request, project_id):
-    pass

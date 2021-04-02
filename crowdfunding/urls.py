@@ -18,8 +18,6 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from accounts.views import LoginView
-from accounts.views import password_reset_request
-from django.conf.urls import url 
 
 '''from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -28,10 +26,8 @@ from . import settings'''
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('fundraising.urls')),
-    path('users/', include('django.contrib.auth.urls'), name='users'),
-    path('accounts/', include('accounts.urls')),
     path('login/', LoginView.as_view(), name='login'),
-    path("password_reset/", password_reset_request, name="password_reset"),
+    # path('users/', include('django.contrib.auth.urls'), name='users'),
    
 ]
 if settings.DEBUG:

@@ -95,8 +95,8 @@
 
                   <ul class="nav navbar-nav">
 
-                    <li><a class="is-active" href="./home">HOME</a></li>
-                    <li><a href="./about">ABOUT</a></li>
+                    <li><a class="is-active" href="/home">HOME</a></li>
+                    <li><a href="about">ABOUT</a></li>
                     <li class="has-child"><a href="#">CAUSES</a>
 
                       <ul class="submenu">
@@ -107,7 +107,7 @@
                       </ul>
 
                     </li>
-                    <li><a href="./project">PROJECTS</a></li>
+                    <li><a href="project">PROJECTS</a></li>
                     <li><a href="layout/contact.html">CONTACT</a></li>
 
                   </ul>
@@ -136,8 +136,8 @@
     {% block topratedprojects %}
     {% endblock %}
     <!-- /.cause -->
-
-    <div class="section-home our-sponsors animate-onscroll fadeIn">
+    {% block sponsor %}
+    <div class="section-home our-sponsors animate-onscroll fadeIn ">
 
         <div class="container">
 
@@ -145,7 +145,7 @@
 
             <ul class="owl-carousel list-unstyled list-sponsors">
 
-              <li> <img src="{% static 'images/sponsors/bus.png' %}" alt=""></li>
+              <li> <img src="{% static 'images/sponsors/bus.png' %}" alt="" ></li>
               <li> <img src="{% static 'images/sponsors/wikimedia.png' %}" alt=""></li>
               <li> <img src="{% static 'images/sponsors/one-world.png' %}" alt=""></li>
               <li> <img src="{% static 'images/sponsors/wikiversity.png' %}" alt=""></li>
@@ -162,7 +162,7 @@
         </div>
 
     </div> <!-- /.our-sponsors -->
-
+    {% endblock %}
     <footer class="main-footer">
 
         <div class="footer-top">
@@ -286,7 +286,7 @@
         <div class="footer-bottom">
 
             <div class="container text-right">
-                Sadaka @ copyrights 2015 - by <a href="http://www.ouarmedia.com" target="_blank">Ouarmedia</a>
+                CrowdFunding @ copyrights 2015 - by <a href="http://www.ouarmedia.com" target="_blank">Ouarmedia</a>
             </div>
         </div>
 
@@ -303,7 +303,8 @@
             <h4 class="modal-title" id="donateModalLabel">DONATE NOW</h4>
           </div>
           <div class="modal-body">
-                <form class="form-donation">
+                <form class="form-donation" action="{% url 'add_project' %}" method="POST">
+                        {% csrf_token %}
                         <h3 class="title-style-1 text-center">Thank you for your donation <span class="title-under"></span>  </h3>
                         <div class="row">
                             <div class="form-group col-md-12 ">

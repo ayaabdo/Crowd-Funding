@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="{% static 'css/project-actions.css' %}" xmlns="http://www.w3.org/1999/html">
 {% endblock %}
 {% block header %}
-<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" margin="auto">
+<div id="carouselExampleIndicators" class="carousel slide col-md-5 col-md-offset-3" data-ride="carousel" margin="auto">
   <ol class="carousel-indicators">
       {% for img in project_images %}
       {% if forloop.first %}
@@ -24,7 +24,7 @@
        {% else %}
             <div class="item">
         {% endif %}
-            <img src="{{ img.image_path }}">
+            <img src="{{ img.image_path }}" style="height: 400px;">
             </div>
     {% endfor %}
 
@@ -38,15 +38,15 @@
         <span class="sr-only">Next</span>
     </a>
  </div>
-</div>
+</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 {% endblock %}
 {% block content %}
-<form>
- <div class="form-group">
+<form class="container text-left">
+<div class="form-group">
 <span style="font-weight: bold; font-size: 30px;">Title</span>
 <input style="font-size: 20px;" class="form-control" type="text" placeholder="{{project_details.title}}" readonly>
 </div>
-<div class="form-group">
+<div class="form-group ">
 <span style="font-weight: bold; font-size: 30px;">Details</span>
 <input style="font-size: 20px;" class="form-control" type="text" placeholder="{{project_details.details}}" readonly>
 </div>
@@ -92,8 +92,8 @@
 
       </form>
         <!--<a href="/project/{{ project_details.id }}/report">Report</a>-->
-  <a style="margin: auto;" href="/project/{{ project_details.id }}/comment" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow">Comment</a>
-  <a href="#" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow" data-toggle="modal" data-target="#donateModal">DONATE NOW</a>
+  <a style="margin: auto;" href="/project/{{ project_details.id }}/comment" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-2 col-md-offset-2">Comment</a>
+  <a href="#" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-2 col-md-offset-2" data-toggle="modal" data-target="#donateModal">DONATE NOW</a>
 </div>
 </form>
 {% endblock %}

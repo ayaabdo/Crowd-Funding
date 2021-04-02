@@ -106,19 +106,6 @@
                     <li><a href="gallery.html">GALLERY</a></li>
                     <li><a class="is-active"  href="contact.html">CONTACT</a></li>
 
-                    {% if user.is_authenticated %}
-                    <li class="has-child" style="margin-left: 403px;"><a href="#">{{user.username}}</a>
-                      <ul class="submenu">
-                         <li class="submenu-item"><a href="{% url 'profile' user.id %}">view profile </a></li>
-                         <li class="submenu-item"><a href="{% url 'projects' user.id %}">view projects </a></li>
-                         <li class="submenu-item"><a href="causes.html">view donations </a></li>
-                         <li class="submenu-item"><a href="{% url 'logout' %}">logout </a></li>
-                      </ul>
-                      </li>
-                    {% else %}
-                    <li class="has-child"><a href="#" style="margin-left: 203px;">LOGIN</a>
-                    <li class="has-child"><a href="#" >Register</a>
-                    {% endif %}
                   </ul>
 
                 </div> <!-- /#navbar -->
@@ -169,9 +156,6 @@
 							<label class="col-form-label">Password</label>
                             {{form.password}}
 						</div>
-                        <a href="{% url 'password_reset' %}" class="text-white">
-								<i class="fas fa-sign-out-alt mr-2"></i>forget </a>
-
 						<div class="right-w3l">
 							<input type="submit" class="btn btn-primary pull-right" value="Log in">
 						</div>

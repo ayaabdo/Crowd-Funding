@@ -7,62 +7,60 @@ Create new project
 <link rel="stylesheet" href="{% static 'css/add-project-form.css' %}" xmlns="http://www.w3.org/1999/html">
 {% endblock %}
  {% block header %}
-    <form action="{% url 'add_project' %}" method="POST" enctype="multipart/form-data" class="form-check form-check-inline">
+    <form action="{% url 'add_project' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="form-group" >
-        <div class="controls">
-        <label for="title">Title</label>
-        <input id="title" type="text" name='title' >
-        </div></br>
+        <div class="form-group">
+        <label for="title" >Title</label>
+        <input id="title" type="text" name='title' class="form-control">
+        </div>
         <div class="controls">
             <label for="details">Details</label>
-            <input id="details" type="text" name="details" >
+            <input id="details" type="text" name="details" class="form-control">
         </div> <br>
-        <div class="controls" >
+        <div class="form-group" >
             <label for="cat">Category</label>
-            <select name="cat_id" id="cat">
+            <select name="cat_id" id="cat" class="form-control form-control-lg">
                 <option value="-1"  selected>Select category</option>
                 {% for cat in all_categories %}
                 <option value="{{ cat.id }}">{{ cat.cat_name }}</option>
                 {% endfor %}
              </select>
         </div>
-        <div class="controls">
+        <div class="form-group">
             <label for="tag">Tags</label>
-            <select name="tags_id" id="tag" multiple="multiple">
+            <select name="tags_id" id="tag" multiple="multiple" class="form-control form-control-lg">
                 <option value="-1" selected>Select tag</option>
                 {% for tag in all_tags %}
                 <option value="{{ tag.id }}">{{ tag.tag_name }}</option>
                 {% endfor %}
             </select>
         </div>
-        <div class="controls">
-        <label for="add_image">Images</label>
-        <span id="images"></span>
-        <input type="button" name="add_image" id="add_image" value="Select image" />
+        <div class="form-group">
+            <label for="add_image">Images</label>
+            <span id="images"></span>
+            <input type="button" name="add_image" id="add_image" value="Select image" class="form-control" />
         </div>
-        <div class="controls">
+        <div class="form-group">
          <label for="target">Total target</label>
-         <input id="target" type="number" name="target" >
+         <input id="target" type="number" name="target" class="form-control" >
         </div>
-        <div class="controls">
+        <div class="form-group">
             <label for="donation">Total donation</label>
-            <input id="donation" type="number" name="donation" >
+            <input id="donation" type="number" name="donation" class="form-control" >
         </div> <br>
-        <div class="controls">
+        <div class="form-group">
             <label for="created">Created at</label>
-            <input id="created" type="date" name="created_at" >
+            <input id="created" type="date" name="created_at" class="form-control" >
         </div>
-        <div class="controls">
+        <div class="form-group">
             <label for="start_date">Start date</label>
-            <input id="start_date" type="date" name="start_date" >
+            <input id="start_date" type="date" name="start_date" class="form-control">
         </div>
-        <div class="controls">
+        <div class="form-group">
             <label for="end_date">End date</label>
-           <input id="end_date" type="date" name="end_date" >
+           <input id="end_date" type="date" name="end_date" class="form-control">
         </div>
-        <button>Save</button>
-        </div>
+        <button class="btn btn-primary">Save</button>
     </form>
 {% endblock %}
 {% block scripts %}

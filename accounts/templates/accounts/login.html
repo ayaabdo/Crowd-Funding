@@ -110,7 +110,7 @@
                     <li class="has-child" style="margin-left: 403px;"><a href="#">{{user.username}}</a>
                       <ul class="submenu">
                          <li class="submenu-item"><a href="{% url 'profile' user.id %}">view profile </a></li>
-                         <li class="submenu-item"><a href="causes.html">view projects </a></li>
+                         <li class="submenu-item"><a href="{% url 'projects' user.id %}">view projects </a></li>
                          <li class="submenu-item"><a href="causes.html">view donations </a></li>
                          <li class="submenu-item"><a href="{% url 'logout' %}">logout </a></li>
                       </ul>

@@ -6,6 +6,9 @@ from django.urls import reverse_lazy
 from .forms import LoginForm
 from django.contrib.auth.forms import PasswordResetForm
 from . import models
+from fundraising.models.project import Project
+from django.contrib.auth import get_user_model
+from django.views.generic.edit import DeleteView
 
 
 class LoginView(auth_views.LoginView):
@@ -50,4 +53,43 @@ def profile(request,u_id):
     user_data = models.MyUser.objects.get(id=u_id)
     return render(request, 'accounts/profile.html', {'user_data': user_data})
 
-                  
+def projects(request,u_id):
+    user_projects = Project.objects.get(user_ID=u_id)
+    return render(request, 'accounts/projects.html', {'user_projects': user_projects})
+
+User = get_user_model()
+class UserDelete(DeleteView):
+    model = User
+    success_url = reverse_lazy('home')
+    template_name = 'accounts/user_confirm_delete.html'
+
+def edit_profile(request,u_id):
+    
+    if request.method == "GET":
+        user_data = models.MyUser.objects.get(id=u_id)
+        return render(request, 'accounts/edit_profile.html', {'user_data': user_data})
+
+    else:
+        user_data = models.MyUser.objects.get(id=u_id)
+
+        # if request.POST.get('photo') :
+        #     myfile = request.FILES['photo']
+        #     fs = FileSystemStorage()
+        #     filename = fs.save(myfile.name, myfile)
+        #     uploaded_file_url = fs.url(filename)
+        # else:
+        #      uploaded_file_url = item.photo  
+
+        # if request.POST.get('visible','') == 'on':
+        #     visible_val=True
+        # else:
+        #     visible_val=False    
+
+        models.MyUser.objects.filter(id=u_id).update(first_name= request.POST.get('firstName'), last_name= request.POST.get('lastName') ,
+            password=request.POST.get('password') , mobile_number=request.POST.get('phone') , birth_date=request.POST.get('birthdate') ,
+            face_profile=request.POST.get('face_profile') , country=request.POST.get('country') ),
+
+        return render(request, 'accounts/home.html')
+        
+
+    

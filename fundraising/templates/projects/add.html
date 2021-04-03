@@ -11,39 +11,40 @@ Create new project
         {% csrf_token %}
         <div class="container text-left ">
         <label for="title" >Title</label>
-        <input id="title" type="text" name='title' class="form-control">
-            <label for="details">Details</label>
-            <input id="details" type="text" name="details" class="form-control">
+        <input id="title" type="text" name='title' class="form-control is-valid" required>
 
-            <label for="cat">Category</label>
-            <select name="cat_id" id="cat" class="form-control form-control-lg">
-                <option value="-1"  selected>Select category</option>
-                {% for cat in all_categories %}
-                <option value="{{ cat.id }}">{{ cat.cat_name }}</option>
-                {% endfor %}
-             </select>
+        <label for="details">Details</label>
+        <input id="details" type="text" name="details" class="form-control is-valid" required>
 
-            <label for="tag">Tags</label>
-            <select name="tags_id" id="tag" multiple="multiple" class="form-control form-control-lg">
-                <option value="-1" selected>Select tag</option>
-                {% for tag in all_tags %}
-                <option value="{{ tag.id }}">{{ tag.tag_name }}</option>
-                {% endfor %}
-            </select>
+        <label for="cat">Category</label>
+        <select name="cat_id" id="cat" class="form-control form-control-lg" required>
+            <option value="-1"  selected>Select category</option>
+            {% for cat in all_categories %}
+            <option value="{{ cat.id }}">{{ cat.cat_name }}</option>
+            {% endfor %}
+         </select>
+
+        <label for="tag">Tags</label>
+        <select name="tags_id" id="tag" multiple="multiple" class="form-control form-control-lg" required>
+            <option value="-1" selected>Select tag</option>
+            {% for tag in all_tags %}
+            <option value="{{ tag.id }}">{{ tag.tag_name }}</option>
+            {% endfor %}
+        </select>
 
             <label for="add_image">Images</label>
             <span id="images"></span>
-            <input type="button" name="add_image" id="add_image" value="Select image" class="form-control" />
+            <input type="button" name="add_image" id="add_image" value="Select image" class="form-control is-valid" required>
          <label for="target">Total target</label>
-         <input id="target" type="number" name="target" class="form-control" >
+         <input id="target" type="number" name="target" class="form-control is-valid" required>
             <label for="donation">Total donation</label>
-            <input id="donation" type="number" name="donation" class="form-control" >
+            <input id="donation" type="number" name="donation" class="form-control is-valid" required>
             <label for="created">Created at</label>
-            <input id="created" type="date" name="created_at" class="form-control" >
+            <input id="created" type="date" name="created_at" class="form-control is-valid" required>
                    <label for="start_date">Start date</label>
-            <input id="start_date" type="date" name="start_date" class="form-control">
+            <input id="start_date" type="date" name="start_date" class="form-control is-valid" required>
                     <label for="end_date">End date</label>
-           <input id="end_date" type="date" name="end_date" class="form-control">
+           <input id="end_date" type="date" name="end_date" class="form-control is-valid" required>
 
         </div>
         <button class="btn btn-primary col-md-2 col-md-offset-5" style="margin: 20px 530px;">Save</button>

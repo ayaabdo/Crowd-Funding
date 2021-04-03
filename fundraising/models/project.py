@@ -4,7 +4,7 @@ from .tags import Tag
 from accounts.models import MyUser
 
 class Project(models.Model):
-    user_ID = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    user_ID = models.ForeignKey(MyUser, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=50)
     details = models.CharField(max_length=255)
     cat_id = models.ForeignKey(Category, on_delete=models.CASCADE)

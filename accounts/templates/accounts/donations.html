@@ -1,0 +1,41 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block title %}
+user Donation page
+{% endblock %}
+
+{% block content %}
+<br>
+  <div class='jumbotron'>
+  <h2> user Donations
+</div>
+<div class='container'>
+<table class="table table-striped">
+  <thead class='thead-dark'>
+    <tr>
+      <th scope="col">Donation</th>
+      <th scope="col">Project Images</th>
+      <th scope="col">View Project</th>
+      {% comment %} <th> {{user_donations.0.amount_of_donation}}</th> {% endcomment %}
+    </tr>
+  </thead>
+  <tbody>
+   {% for donate in user_donations %}
+    <tr>
+      <th>{{ donate.amount_of_donation }}</th>
+      <td>
+      {% for img in all_images %}
+        {% if img.proj_id.id == donate.project_ID.id  %}
+          <img src="{{ img.image_path }}">
+        {% endif %}
+      {% endfor %}
+      </td>
+      <td><a href="{% url 'view_project' donate.project_ID.id %}" class='btn btn-info btn-lg'> link </a></td>
+    </tr>
+  {% endfor %}  
+
+  </tbody>
+</table>
+{% endblock %}
+
+

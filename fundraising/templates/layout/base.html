@@ -95,8 +95,8 @@
 
                   <ul class="nav navbar-nav">
 
-                    <li><a class="is-active" href="/home">HOME</a></li>
-                    <li><a href="about">ABOUT</a></li>
+                    <li><a class="is-active" href="{% url 'home' %}">HOME</a></li>
+                    <li><a href="{% url 'about' %}">ABOUT</a></li>
                     <li class="has-child"><a href="#">CAUSES</a>
 
                       <ul class="submenu">
@@ -107,7 +107,7 @@
                       </ul>
 
                     </li>
-                    <li><a href="project">PROJECTS</a></li>
+                    <li><a href="{% url 'project_list' %}">PROJECTS</a></li>
                     <li><a href="layout/contact.html">CONTACT</a></li>
 
 

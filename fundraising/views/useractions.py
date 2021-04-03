@@ -15,8 +15,6 @@ def makeDonation(request, project_id):
     donation = Donation.objects.create(user_ID=request.user, project_ID=project,
                                        amount_of_donation=request.POST.get('donation'))
     donation.save()
-    #images = Image.objects.filter(proj_id=project_id)
-    #return render(request, 'projects/view.html', {'project_details': project, 'project_images': images})
     return redirect('view_project', project_id)
 
 def reportAproject(request, project_id):

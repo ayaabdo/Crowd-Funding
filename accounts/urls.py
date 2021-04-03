@@ -7,7 +7,7 @@ from .views import UserDelete
 urlpatterns = [
     url(r'^profile/(?P<u_id>\d+)/$', views.profile, name='profile'),
     url(r'^edit_profile/(?P<u_id>\d+)/$', views.edit_profile, name='edit_profile'),
-     path('<int:pk>/delete', UserDelete.as_view(), name='user_confirm_delete'),
+    path('<int:pk>/delete', UserDelete.as_view(), name='user_confirm_delete'),
     url(r'^projects/(?P<u_id>\d+)/$', views.projects, name='projects'), 
     url(r'^donations/(?P<u_id>\d+)/$', views.donations, name='donations'), 
    

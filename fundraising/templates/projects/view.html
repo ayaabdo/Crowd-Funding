@@ -89,8 +89,9 @@
 <span class=" text-muted font-weight-normal">
    {{ comment.comment }}
 </span>
+    {% if request.user == comment.user_ID %}
 <a href="" data-commentid="{{ comment.id }}" data-comment="{{ comment.comment }}" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2 open-AddBookDialog" data-toggle="modal" data-target="#commenteditModal">Edit</a>
-
+    {% endif %}
 </p>
 <hr>
 </div>

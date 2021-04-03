@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from fundraising.models.project import Project
 from fundraising.models.images import Image
 from fundraising.models.categories import Category
+from accounts.models import MyUser
 #from fundraising.forms.imageform import ImageForm
 #from fundraising.forms.projectform import ProjectForm
 from django.forms import modelformset_factory
@@ -20,7 +21,11 @@ def index(request):
 def view(request, project_id):
         project = get_object_or_404(Project, id=project_id)
         images = Image.objects.filter(proj_id=project_id)
-        return render(request, 'projects/view.html', {'project_details': project, 'project_images': images})
+
+        comments =project.comments.filter(active=True)
+
+        return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
+                                                      'comments':comments})
 
 def create(request):
     if request.method == "GET":

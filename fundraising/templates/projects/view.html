@@ -77,6 +77,25 @@
 <span style="font-weight: bold; font-size: 30px;">End date</span>
 <input style="font-size: 20px;" class="form-control" type="text" placeholder="{{project_details.end_date}}" readonly>
 </div>
+
+<div class="card-body">
+<!-- comments -->
+<h2>{{ comments.count }} comments</h2>
+
+{% for comment in comments %}
+<div class="comments" style="padding: 10px;">
+<p class="font-weight-bold">
+    {{comment.user_ID}} :
+<span class=" text-muted font-weight-normal">
+   {{ comment.comment }}
+</span>
+<a href="" data-commentid="{{ comment.id }}" data-comment="{{ comment.comment }}" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2 open-AddBookDialog" data-toggle="modal" data-target="#commenteditModal">Edit</a>
+
+</p>
+<hr>
+</div>
+{% endfor %}
+</div>
 <div class="form-group">
     <form action="{% url 'report_project' project_details.id %}" method="POST">
        {% csrf_token %}
@@ -92,7 +111,7 @@
 
       </form>
         <!--<a href="/project/{{ project_details.id }}/report">Report</a>-->
-         <a style="font-weight: bold; font-size: 20px;" href="" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2">Comment</a>
+         <a style="font-weight: bold; font-size: 20px;" href="" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2" data-toggle="modal" data-target="#commentModal">Comment</a>
   <a style="font-weight: bold; font-size: 20px;" href="" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2" data-toggle="modal" data-target="#donateModal">DONATE NOW</a>
   <button id="myBtn" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2" style="font-weight: bold; font-size: 20px;">Report</button>
 
@@ -158,9 +177,94 @@
           </div>
         </div>
       </div>
+    </div> <!-- /.modal -->
+{% endblock %}
+
+{% block comment %}
+
+<div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
+
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="commentModalLabel">Comment</h4>
+          </div>
+          <div class="modal-body">
+               <form class="form-comment" action="{% url 'comments_detail' project_details.id %}" method="POST">
+                        {% csrf_token %}
+                        <h3 class="title-style-1 text-center">Leave Comment here <span class="title-under"></span>  </h3>
+
+                        <div class="row">
+
+                            <div class="form-group col-md-12">
+                                <textarea cols="30" rows="4" class="form-control" name="comment" placeholder="add comment"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <button type="submit" class="btn btn-primary pull-right" name="commentNow" >comment</button>
+                            </div>
+
+                        </div>
+                </form>
+          </div>
+        </div>
+      </div>
 
     </div> <!-- /.modal -->
+
+    <div class="modal fade" id="commenteditModal" tabindex="-1" role="dialog" aria-labelledby="commenteditModalLabel" aria-hidden="true">
+
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="commenteditModalLabel">Comment</h4>
+          </div>
+          <div class="modal-body">
+               <form class="form-comment" action="{% url 'comment_edit' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <h3 class="title-style-1 text-center">Edit your Comment <span class="title-under"></span>  </h3>
+
+                        <div class="row">
+                                    <input type="text" name="commentId" id="commentId" />
+
+                            <div class="form-group col-md-12">
+                                <textarea cols="30" rows="4" class="form-control" value="{{ thecomment.comment }}" name="comment"  id="commentedited"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <button type="submit" class="btn btn-primary pull-right" name="commentNow" >comment</button>
+                            </div>
+
+                        </div>
+                </form>
+          </div>
+        </div>
+      </div>
+
+    </div> <!-- /.modal -->
+
+
 {% endblock %}
 {% block scripts %}
 <script src="{% static 'js/project-actions.js' %}"></script>
+
+<script>
+    var elements = document.getElementsByClassName('open-AddBookDialog');
+    for (var i=0; i<elements.length; i++) {
+        elements[i].addEventListener("click", function(){
+               var commentId = $(this).data('commentid');
+             $(".modal-body #commentId").val( commentId );
+
+               var thecomment = $(this).data('comment');
+             $(".modal-body #commentedited").val( thecomment );
+
+        });
+    }
+</script>
+
+
 {% endblock %}

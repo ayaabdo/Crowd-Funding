@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="{% static 'css/project-actions.css' %}" xmlns="http://www.w3.org/1999/html">
 {% endblock %}
 {% block header %}
-<div id="carouselExampleIndicators" class="carousel slide col-md-5 col-md-offset-3" data-ride="carousel" margin="auto">
+ <div id="carouselExampleIndicators" class="carousel slide col-md-5 col-md-offset-3" data-ride="carousel" margin="auto">
   <ol class="carousel-indicators">
       {% for img in project_images %}
       {% if forloop.first %}
@@ -41,14 +41,15 @@
 </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 {% endblock %}
 {% block content %}
-<form class="container text-left">
+<div class="container text-left">
 <div class="form-group">
 <span style="font-weight: bold; font-size: 30px;">Title</span>
 <input style="font-size: 20px;" class="form-control" type="text" placeholder="{{project_details.title}}" readonly>
 </div>
 <div class="form-group ">
 <span style="font-weight: bold; font-size: 30px;">Details</span>
-<input style="font-size: 20px;" class="form-control" type="text" placeholder="{{project_details.details}}" readonly>
+<textarea style="font-size: 20px;" class="form-control" type="text" placeholder="{{project_details.details}}" readonly>
+</textarea>
 </div>
 <div class="form-group">
 <span style="font-weight: bold; font-size: 30px;">Category</span>
@@ -77,27 +78,89 @@
 <input style="font-size: 20px;" class="form-control" type="text" placeholder="{{project_details.end_date}}" readonly>
 </div>
 <div class="form-group">
-    <form action="{% url 'report_project' project_details.id %}" method="POST" enctype="multipart/form-data">
+    <form action="{% url 'report_project' project_details.id %}" method="POST">
        {% csrf_token %}
-        <button id="myBtn" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow">Report</button>
        <div id="myModal" class="modal">
-          <div class="modal-content">
+          <div class="modal-content ">
             <span class="close">&times;</span>
-             <label for="report-content">What is your complain ?</label><br>
-            <textarea id="report-content" name="report-content">
-            </textarea><br>
-            <button class="btn btn-primary">Report</button>
+             <label for="report-content" class="col-md-offset-3" style="font-weight: bold; font-size: 20px;">What is your complain ?</label><br>
+            <textarea id="report-content" name="report-content" class="col-md-5 col-md-offset-3">
+            </textarea><br><br><br>
+            <button class="btn btn-primary col-md-offset-5" style="font-weight: bold; font-size: 20px; color: red;">Report</button>
           </div>
         </div>
 
       </form>
         <!--<a href="/project/{{ project_details.id }}/report">Report</a>-->
-  <a style="margin: auto;" href="/project/{{ project_details.id }}/comment" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-2 col-md-offset-2">Comment</a>
-  <a href="#" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-2 col-md-offset-2" data-toggle="modal" data-target="#donateModal">DONATE NOW</a>
-</div>
-</form>
-{% endblock %}
+         <a style="font-weight: bold; font-size: 20px;" href="" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2">Comment</a>
+  <a style="font-weight: bold; font-size: 20px;" href="" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2" data-toggle="modal" data-target="#donateModal">DONATE NOW</a>
+  <button id="myBtn" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2" style="font-weight: bold; font-size: 20px;">Report</button>
 
+
+</div>
+</div>
+{% endblock %}
+{% block donate %}
+
+       <!-- Donate Modal -->
+    <div class="modal fade" id="donateModal" tabindex="-1" role="dialog" aria-labelledby="donateModalLabel" aria-hidden="true">
+
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="donateModalLabel">DONATE NOW</h4>
+          </div>
+          <div class="modal-body">
+                <form class="form-donation" action="{% url 'make-donation' project_details.id %}" method="POST">
+                        {% csrf_token %}
+                        <h3 class="title-style-1 text-center">Thank you for your donation <span class="title-under"></span>  </h3>
+                        <div class="row">
+                            <div class="form-group col-md-12 ">
+                                <input type="text" class="form-control" id="amount" name="donation" placeholder="AMOUNT(€)">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" name="firstName" placeholder="First name*">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" name="lastName" placeholder="Last name*">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" name="email" placeholder="Email*">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" name="phone" placeholder="Phone">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <input type="text" class="form-control" name="address" placeholder="Address">
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="form-group col-md-12">
+                                <textarea cols="30" rows="4" class="form-control" name="note" placeholder="Additional note"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <button type="submit" class="btn btn-primary pull-right" name="donateNow" >DONATE NOW</button>
+                            </div>
+
+                        </div>
+                </form>
+
+          </div>
+        </div>
+      </div>
+
+    </div> <!-- /.modal -->
+{% endblock %}
 {% block scripts %}
 <script src="{% static 'js/project-actions.js' %}"></script>
 {% endblock %}

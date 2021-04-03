@@ -51,3 +51,4 @@ def create(request):
                 project_obj.tags.add(selected_tag)
             project_obj.save()
             return redirect('project_list')
+

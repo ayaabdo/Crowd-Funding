@@ -110,6 +110,21 @@
                     <li><a href="project">PROJECTS</a></li>
                     <li><a href="layout/contact.html">CONTACT</a></li>
 
+
+                    {% if user.is_authenticated %}
+                    <li class="has-child"><a href="#" style="color: greenyellow;font-weight: bold;">{{user.username}}</a>
+                        <ul class="submenu">
+                            <li class="submenu-item"><a href="{% url 'profile' user.id %}">view profile </a></li>
+                            <li class="submenu-item"><a href="{% url 'projects' user.id %}">view projects </a></li>
+                            <li class="submenu-item"><a href="{% url 'donations' user.id %}">view donations </a></li>
+                            <li class="submenu-item"><a href="{% url 'logout' %}">logout </a></li>
+                        </ul>
+                        </li>
+                        {% else %}
+                    <li class="has-child"><a href="{% url 'login' %}" style="color: greenyellow;font-weight: bold;">LOGIN</a></li>
+                    <li class="has-child"><a href="#" style="color: greenyellow;font-weight: bold;">Register</a></li>
+                    {% endif %}
+
                   </ul>
 
                 </div> <!-- /#navbar -->

@@ -8,6 +8,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     color: blue;
 }
 body{
+    height: 100%;
     margin: auto;
     text-align: center;
 }

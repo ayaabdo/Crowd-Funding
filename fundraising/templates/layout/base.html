@@ -107,10 +107,13 @@
                       </ul>
 
                     </li>
+                   {% if user.is_authenticated %}
                     <li><a href="{% url 'project_list' %}">PROJECTS</a></li>
+                   {% else %}
+                      <li><a href="{% url 'login' %}">PROJECTS</a></li>
+                    {% endif %}
+
                     <li><a href="layout/contact.html">CONTACT</a></li>
-
-
                     {% if user.is_authenticated %}
                     <li class="has-child"><a href="#" style="color: greenyellow;font-weight: bold;">{{user.username}}</a>
                         <ul class="submenu">

@@ -1,0 +1,7 @@
+.idea
+.venv
+__pycache__
+/fundraising/migrations/
+/accounts/migrations/
+/db.sqlite3
+/media

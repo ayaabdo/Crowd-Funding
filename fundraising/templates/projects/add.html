@@ -17,28 +17,27 @@ Create new project
         <input id="details" type="text" name="details" class="form-control is-valid" required>
 
         <label for="cat">Category</label>
-        <select name="cat_id" id="cat" class="form-control form-control-lg">
-            <option value="-1"  selected>Select category</option>
+        <select name="cat_id" id="cat" class="form-control form-control-lg is-valid" required>
+            <option disabled value="" selected hidden>Select category</option>
             {% for cat in all_categories %}
-            <option value="{{ cat.id }}" required>{{ cat.cat_name }}</option>
+            <option value="{{ cat.id }}">{{ cat.cat_name }}</option>
             {% endfor %}
          </select>
 
         <label for="tag">Tags</label>
-        <select name="tags_id" id="tag" multiple="multiple" class="form-control form-control-lg" >
-            <option value="-1" selected>Select tag</option>
+        <select name="tags_id" id="tag" multiple class="form-control form-control-lg is-valid" required>
+            <option disabled value="">Select tag</option>
             {% for tag in all_tags %}
-            <option value="{{ tag.id }}" required>{{ tag.tag_name }}</option>
+            <option value="{{ tag.id }}" >{{ tag.tag_name }}</option>
             {% endfor %}
         </select>
 
-            <label for="add_image">Images</label>
+            <label for="add_image" >Images</label>
             <span id="images"></span>
             <input type="button" name="add_image" id="add_image" value="Select image" class="form-control is-valid" required>
-         <label for="target">Total target</label>
-         <input id="target" type="number" name="target" class="form-control is-valid" required>
-            <label for="donation">Total donation</label>
-            <input id="donation" type="number" name="donation" class="form-control is-valid" required>
+             <label for="target">Total target</label>
+             <input id="target" type="number" name="target" class="form-control is-valid" required>
+
             <label for="created">Created at</label>
             <input id="created" type="date" name="created_at" class="form-control is-valid" required>
                    <label for="start_date">Start date</label>

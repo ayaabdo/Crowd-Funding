@@ -6,8 +6,9 @@ from fundraising.models.images import Image
 from fundraising.models.comments import Comment
 from django.http import HttpResponse
 from fundraising.forms.CommentForm import CommentForm
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def makeDonation(request, project_id):
     project = Project.objects.get(id=project_id)
     project.total_donation += int(request.POST.get('donation'))
@@ -17,6 +18,7 @@ def makeDonation(request, project_id):
     donation.save()
     return redirect('view_project', project_id)
 
+@login_required
 def reportAproject(request, project_id):
     project = Project.objects.get(id=project_id)
     report = ReportAProject.objects.create(user_ID=request.user, project_ID=project,
@@ -24,12 +26,15 @@ def reportAproject(request, project_id):
     report.save()
     return redirect('project_list')
 
+@login_required
 def rate(request, project_id):
     pass
 
+@login_required
 def reportAcomment(request, project_id, comment_id):
     pass
 
+@login_required
 def comment(request,project_id):
     template_name = 'projects/view.html'
     project = Project.objects.get(id=project_id)
@@ -38,6 +43,7 @@ def comment(request,project_id):
     comment.save()
     return redirect('project_list')
 
+@login_required
 def editComment(request):
     # if request.method == "GET":
     #

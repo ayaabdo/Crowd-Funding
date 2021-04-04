@@ -1,0 +1,75 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block title %}
+{{project_details.title}}
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/project-actions.css' %}" xmlns="http://www.w3.org/1999/html">
+{% endblock %}
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="container text-left">
+    <div class="form-group">
+    <span style="font-weight: bold; font-size: 30px;">Title</span>
+    <input style="font-size: 20px;" class="form-control" type="text" name="title" value="{{ selected_project.title }}">
+    </div>
+    <div class="form-group ">
+    <span style="font-weight: bold; font-size: 30px;">Details</span>
+    <textarea style="font-size: 20px;" class="form-control" type="text" name="details" value="{{ selected_project.details }}">
+        {{ selected_project.details }}
+    </textarea>
+    </div>
+
+    <div class="form-group">
+    <label for="cat" style="font-weight: bold; font-size: 30px;">Category</label>
+        <select name="cat_id" id="cat" class="form-control form-control-lg is-valid" required>
+            <option value="{{ selected_project.cat_id.id }}"  selected>{{ selected_project.cat_id.cat_name }}</option>
+            {% for cat in all_categories %}
+            {% if cat.id != selected_project.cat_id.id %}
+            <option value="{{ cat.id }}">{{ cat.cat_name }}</option>
+            {% endif %}
+            {% endfor %}
+         </select>
+
+        <label for="tag" style="font-weight: bold; font-size: 30px;">Tags</label>
+        <select name="tags_id" id="tag" multiple="multiple" class="form-control form-control-lg is-valid"  required>
+            {% for tag in selected_project.tags.all %}
+            <option value="{{ tag.id }}" selected>{{ tag.tag_name }}</option>
+            {% endfor %}
+            {% for tag in all_tags %}
+            {% if tag.id not in selected_project.tags.all.id %}
+            <option value="{{ tag.id }}">{{ tag.tag_name }}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="add_image" >Images</label>
+        <span id="images"></span>
+        <input type="button" name="add_image" id="add_image" value="Select image" class="form-control is-valid" required>
+    </div>
+    <div class="form-group">
+    <span style="font-weight: bold; font-size: 30px;">Total Target</span>
+    <input style="font-size: 20px;" class="form-control is-valid" type="text" name="target" value="{{selected_project.total_target}}" required>
+    </div>
+    <div class="form-group">
+    <span style="font-weight: bold; font-size: 30px;">Total Donation</span>
+    <input style="font-size: 20px;" class="form-control" type="text" name="donation" value="{{selected_project.total_donation}}" readonly>
+    </div>
+    <div class="form-group">
+    <span style="font-weight: bold; font-size: 30px;">Start date</span>
+    <input style="font-size: 20px;" class="form-control is-valid" type="text" value="{{selected_project.start_date}}" required>
+    </div>
+    <div class="form-group">
+    <span style="font-weight: bold; font-size: 30px;">End date</span>
+    <input style="font-size: 20px;" class="form-control is-valid" type="text" value="{{selected_project.end_date}}" required>
+    </div>
+    </div>
+    <button class="btn btn-primary" style="font-weight: bold; font-size: 30px;">Save</button>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/project-images.js' %}"></script>
+{% endblock %}

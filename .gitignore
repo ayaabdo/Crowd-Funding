@@ -1,7 +1,9 @@
 .idea
 .venv
 __pycache__
-/fundraising/migrations/
-/accounts/migrations/
+/fundraising/migrations/0001_initial.py
+/fundraising/migrations/0002_auto_20210404_1357.py
+/accounts/migrations/0001_initial.py
 /db.sqlite3
-/media
+/media/*.png
+/media/*.jpg

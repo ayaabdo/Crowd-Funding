@@ -5,6 +5,7 @@ from fundraising.models.project import Project
 from fundraising.models.images import Image
 from fundraising.models.categories import Category
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q, Avg, Sum
 from accounts.models import MyUser
 #from fundraising.forms.imageform import ImageForm
 #from fundraising.forms.projectform import ProjectForm
@@ -14,9 +15,11 @@ from fundraising.models.tags import Tag
 from fundraising.models.report_project import ReportAProject
 @login_required
 def index(request):
+    categories = Category.objects.all()
     projects = Project.objects.all()
     images = Image.objects.all()
-    return render(request, 'projects/index.html', {'all_projects': projects, 'all_images': images})
+
+    return render(request, 'projects/index.html', {'all_projects': projects, 'all_images': images,'categories': categories})
 
 @login_required
 def view(request, project_id):
@@ -97,3 +100,24 @@ def save_tags(tags, project):
     for elem in tags:
         selected_tag = Tag.objects.get(id=elem)
         project.tags.add(selected_tag)
+
+        #########################################################################################
+
+
+def search(request):
+    q = request.GET.get('searchy')
+    if q:
+        print('searchBox')
+        project = Project.objects.filter(title__icontains=q)
+        images = Image.objects.all()
+        # return show(request, project)
+        return render(request, "home/srch.html", {'project': project, 'all_images': images})
+
+# def show(request, id):
+#     # project = Project.objects.get(id=id)
+#     project = get_object_or_404(Project, id=id)
+#     context = {'project':project,
+#                }
+#     return render(request, "home/srch.html", context)
+
+

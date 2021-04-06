@@ -7,8 +7,10 @@ from .forms import LoginForm
 from django.contrib.auth.forms import PasswordResetForm
 from . import models
 from fundraising.models.project import Project
+from fundraising.models.categories import Category
 from fundraising.models.images import Image
 from fundraising.models.user_donation import Donation
+
 from django.contrib.auth import get_user_model
 from django.views.generic.edit import DeleteView
 
@@ -53,18 +55,22 @@ def password_reset_request(request):
 
 def profile(request,u_id):
     user_data = models.MyUser.objects.get(id=u_id)
-    return render(request, 'accounts/profile.html', {'user_data': user_data})
+    categories = Category.objects.all()
+
+    return render(request, 'accounts/profile.html', {'user_data': user_data,'categories': categories})
 
 def projects(request,u_id):
     user_projects = Project.objects.filter(user_ID=u_id)
     images = Image.objects.all()
-    return render(request, 'accounts/projects.html', {'user_projects': user_projects, 'all_images': images})
+    categories = Category.objects.all()
+    return render(request, 'accounts/projects.html', {'user_projects': user_projects, 'all_images': images,'categories': categories})
 
 
 def donations(request,u_id):
     user_donations = Donation.objects.filter(user_ID=u_id)
     images = Image.objects.all()
-    return render(request, 'accounts/donations.html', {'user_donations': user_donations, 'all_images': images})
+    categories = Category.objects.all()
+    return render(request, 'accounts/donations.html', {'user_donations': user_donations, 'all_images': images,'categories': categories})
 
 
 User = get_user_model()
@@ -74,10 +80,11 @@ class UserDelete(DeleteView):
     template_name = 'accounts/user_confirm_delete.html'
 
 def edit_profile(request,u_id):
+    categories = Category.objects.all()
     
     if request.method == "GET":
         user_data = models.MyUser.objects.get(id=u_id)
-        return render(request, 'accounts/edit_profile.html', {'user_data': user_data})
+        return render(request, 'accounts/edit_profile.html', {'user_data': user_data,'categories': categories})
 
     else:
         user_data = models.MyUser.objects.get(id=u_id)

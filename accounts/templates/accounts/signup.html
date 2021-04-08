@@ -15,10 +15,21 @@
 			<div class="row">
 				<div class="col-md-7 col-sm-12 col-form">
 					<h2 class="title-style-2">SIGNUP FORM <span class="title-under"></span></h2>
-                {% if form.non_field_errors %}
-                    <ul style="color: red;text-align: center;">
-                        {{ form.non_field_errors.as_ul }}
-                    </ul>
+                    {% if form.errors %}
+                        <!-- Error messaging -->
+                        <div id="errors">
+                            <div class="inner">
+                                <p>There were some errors in the information you entered. Please correct the following:</p>
+                                {{ form.non_field_errors }}
+                                <ul>
+                                    {% for field in form %}
+                                        {% if field.errors %}<li>{{ field.label }}: {{ field.errors|striptags }}</li>{% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- /Error messaging -->
+                        <hr>
                     {% endif %}
 
 					<form method="POST" enctype="multipart/form-data">
@@ -42,8 +53,10 @@
                         <div class="form-group">
 							<label class="col-form-label">Password</label>
                             {{ form.password1 }}
+{#                            {{ form.password1.errors }}#}
 							<label class="col-form-label">Confirm Password</label>
                             {{ form.password2 }}
+{#                            {{ form.password2.errors }}#}
 						</div>
                         {% comment %} <a href="{% url 'password_reset' %}" class="text-white">
 								<i class="fas fa-sign-out-alt mr-2"></i>forget </a> {% endcomment %}

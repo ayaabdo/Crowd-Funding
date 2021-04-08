@@ -61,6 +61,7 @@ class SignupForm(UserCreationForm):
     #                                   'class': 'custom-file-input text-info',
     #                                   'placeholder': 'file path'}))
 
+
     class Meta:
         model = MyUser
         fields = ('username', 'first_name', 'last_name', 'mobile_number',

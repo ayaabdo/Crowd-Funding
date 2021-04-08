@@ -90,21 +90,38 @@
                   <a class="navbar-brand" href="index.html"></a>
 
                 </div>
+                   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                        <form class="search" action="{% url 'searchbar' %}" method="GET">
+                            {% csrf_token %}
+                            <input class="form-control" type="text" placeholder="Search" name="searchy">
+<!--                            <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="submit">-->
+<!--                            <button><img src="images/search_icon.png"></button>-->
+                        </form>
+                    </div>
 
-                <div id="navbar" class="navbar-collapse collapse pull-right">
+                <ul id="navbar" class="navbar-collapse collapse pull-right">
 
                   <ul class="nav navbar-nav">
 
                     <li><a class="is-active" href="{% url 'home' %}">HOME</a></li>
                     <li><a href="{% url 'about' %}">ABOUT</a></li>
-                    <li class="has-child"><a href="#">CAUSES</a>
+                    <li class="has-child"><a >CATEGORY</a>
+                         <ul class="submenu">
 
-                      <ul class="submenu">
-                         <li class="submenu-item"><a href="layout/causes.html">Causes list </a></li>
-                         <li class="submenu-item"><a href="layout/causes-single.html">Single cause </a></li>
-                         <li class="submenu-item"><a href="layout/causes-single.html">Single cause </a></li>
-                         <li class="submenu-item"><a href="layout/causes-single.html">Single cause </a></li>
-                      </ul>
+
+                             {% for cat in categories %}
+                             <ul class="category">
+                               <li class="submenu-item"><a href="{% url 'showCategory' cat.id %}">{{cat.cat_name }} </a></li>
+                             </ul>
+                             {% endfor %}
+                         </ul>
+
+<!--                      <ul class="submenu">-->
+<!--                         <li class="submenu-item"><a href="layout/causes.html">Causes list </a></li>-->
+<!--                         <li class="submenu-item"><a href="layout/causes-single.html">Single cause </a></li>-->
+<!--                         <li class="submenu-item"><a href="layout/causes-single.html">Single cause </a></li>-->
+<!--                         <li class="submenu-item"><a href="layout/causes-single.html">Single cause </a></li>-->
+<!--                      </ul>-->
 
                     </li>
                    {% if user.is_authenticated %}
@@ -154,33 +171,33 @@
     {% block topratedprojects %}
     {% endblock %}
     <!-- /.cause -->
-    {% block sponsor %}
-    <div class="section-home our-sponsors animate-onscroll fadeIn ">
+<!--    {% block sponsor %}-->
+<!--    <div class="section-home our-sponsors animate-onscroll fadeIn ">-->
 
-        <div class="container">
+<!--        <div class="container">-->
 
-            <h2 class="title-style-1">Our Sponsors <span class="title-under"></span></h2>
+<!--            <h2 class="title-style-1">Our Sponsors <span class="title-under"></span></h2>-->
 
-            <ul class="owl-carousel list-unstyled list-sponsors">
+<!--            <ul class="owl-carousel list-unstyled list-sponsors">-->
 
-              <li> <img src="{% static 'images/sponsors/bus.png' %}" alt="" ></li>
-              <li> <img src="{% static 'images/sponsors/wikimedia.png' %}" alt=""></li>
-              <li> <img src="{% static 'images/sponsors/one-world.png' %}" alt=""></li>
-              <li> <img src="{% static 'images/sponsors/wikiversity.png' %}" alt=""></li>
-              <li> <img src="{% static 'images/sponsors/united-nations.png' %}" alt=""></li>
+<!--              <li> <img src="{% static 'images/sponsors/bus.png' %}" alt="" ></li>-->
+<!--              <li> <img src="{% static 'images/sponsors/wikimedia.png' %}" alt=""></li>-->
+<!--              <li> <img src="{% static 'images/sponsors/one-world.png' %}" alt=""></li>-->
+<!--              <li> <img src="{% static 'images/sponsors/wikiversity.png' %}" alt=""></li>-->
+<!--              <li> <img src="{% static 'images/sponsors/united-nations.png' %}" alt=""></li>-->
 
-              <li> <img src="{% static 'images/sponsors/bus.png' %}" alt=""></li>
-              <li> <img src="{% static 'images/sponsors/wikimedia.png' %}" alt=""></li>
-              <li> <img src="{% static 'images/sponsors/one-world.png' %}" alt=""></li>
-              <li> <img src="{% static 'images/sponsors/wikiversity.png' %}" alt=""></li>
-              <li> <img src="{% static 'images/sponsors/united-nations.png' %}" alt=""></li>
+<!--              <li> <img src="{% static 'images/sponsors/bus.png' %}" alt=""></li>-->
+<!--              <li> <img src="{% static 'images/sponsors/wikimedia.png' %}" alt=""></li>-->
+<!--              <li> <img src="{% static 'images/sponsors/one-world.png' %}" alt=""></li>-->
+<!--              <li> <img src="{% static 'images/sponsors/wikiversity.png' %}" alt=""></li>-->
+<!--              <li> <img src="{% static 'images/sponsors/united-nations.png' %}" alt=""></li>-->
 
-            </ul>
+<!--            </ul>-->
 
-        </div>
+<!--        </div>-->
 
-    </div> <!-- /.our-sponsors -->
-    {% endblock %}
+<!--    </div> &lt;!&ndash; /.our-sponsors &ndash;&gt;-->
+<!--    {% endblock %}-->
     <footer class="main-footer">
 
         <div class="footer-top">

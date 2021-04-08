@@ -1,15 +1,24 @@
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.shortcuts import get_current_site
+from django.http import HttpResponse
 from django.shortcuts import render
-from django.contrib.auth import views as auth_views
+from django.contrib.auth import views as auth_views, login
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views import generic
 from django.urls import reverse_lazy
 from django.core.files.storage import FileSystemStorage
+from django.core.mail import EmailMessage
 
-from .forms import LoginForm
+from .forms import LoginForm, SignupForm
 from django.contrib.auth.forms import PasswordResetForm
 from . import models
 from fundraising.models.project import Project
+from fundraising.models.categories import Category
 from fundraising.models.images import Image
 from fundraising.models.user_donation import Donation
+
 from django.contrib.auth import get_user_model
 from django.views.generic.edit import DeleteView
 
@@ -59,20 +68,24 @@ def password_reset_request(request):
 
 def profile(request,u_id):
     user_data = models.MyUser.objects.get(id=u_id)
-    return render(request, 'accounts/profile.html', {'user_data': user_data})
+    categories = Category.objects.all()
+
+    return render(request, 'accounts/profile.html', {'user_data': user_data,'categories': categories})
 
 def projects(request,u_id):
     user_projects = Project.objects.filter(user_ID=u_id)
     images = Image.objects.all()
-    return render(request, 'accounts/projects.html', {'user_projects': user_projects, 'all_images': images})
+    categories = Category.objects.all()
+    return render(request, 'accounts/projects.html', {'user_projects': user_projects, 'all_images': images,'categories': categories})
 
 
 def donations(request,u_id):
     user_donations = Donation.objects.filter(user_ID=u_id)
     images = Image.objects.all()
     projects = Project.objects.filter(user_ID=u_id)
-    return render(request, 'accounts/donations.html', {'user_donations': user_donations, 'all_images': images, 'projects':projects})
-
+    categories = Category.objects.all()
+    return render(request, 'accounts/donations.html', {'user_donations': user_donations, 'all_images': images, 'projects':projects,'categories': categories})
+    
 
 User = get_user_model()
 class UserDelete(DeleteView):
@@ -81,10 +94,11 @@ class UserDelete(DeleteView):
     template_name = 'accounts/user_confirm_delete.html'
 
 def edit_profile(request,u_id):
+    categories = Category.objects.all()
     
     if request.method == "GET":
         user_data = models.MyUser.objects.get(id=u_id)
-        return render(request, 'accounts/edit_profile.html', {'user_data': user_data})
+        return render(request, 'accounts/edit_profile.html', {'user_data': user_data,'categories': categories})
 
     else:
         user_data = models.MyUser.objects.get(id=u_id)
@@ -105,4 +119,45 @@ def edit_profile(request,u_id):
         return render(request, 'accounts/edit_profile.html')
         
 
-    
+def signup(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST, request.FILES)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.is_active = False
+            user.save()
+            current_site = get_current_site(request)
+            mail_subject = 'Activate your blog account.'
+            message = render_to_string('accounts/acc_active_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': default_token_generator.make_token(user),
+            })
+            print(message)
+            to_email = form.cleaned_data.get('email')
+            email = EmailMessage(
+                mail_subject, message, to=[to_email]
+            )
+            email.send()
+            return HttpResponse('Please confirm your email address to complete the registration')
+    else:
+        form = SignupForm()
+    return render(request, 'accounts/signup.html', {'form': form})
+
+
+def activate(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = User.objects.get(pk=uid)
+        print(user, uid, token)
+        print(default_token_generator.check_token(user, token))
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+        return render(request, 'accounts/activation_done.html')
+    else:
+        return HttpResponse('Activation link is invalid!')

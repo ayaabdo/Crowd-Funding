@@ -69,7 +69,7 @@ a:hover, a:focus, a:active {
 .navbar-main a.is-active {
   background: none !important;
   color: inherit;
-  border-bottom: 2px solid #fff;
+  border-bottom: 2px solid #fff;z
 }
 .navbar-main .submenu {
   position: absolute;
@@ -145,14 +145,15 @@ a:hover, a:focus, a:active {
   width: 50px;
 }
 .carousel-home .carousel-caption {
+   color:blue;
   top: 50%;
   bottom: auto;
   transform: translateY(-50%);
 }
 .carousel-home .carousel-title {
-  color: #fff;
+  color: blue;
   font-family: "Dosis", sans-serif;
-  font-size: 50px;
+  font-size: 60px;
   font-weight: bold;
   text-transform: uppercase;
 }
@@ -264,13 +265,15 @@ a:hover, a:focus, a:active {
 /* home/causes
 ================================= */
 .cause {
+
   padding-bottom: 15px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   border: 1px solid #1f76bd;
   -moz-transition: all, 0.3s;
   -o-transition: all, 0.3s;
   -webkit-transition: all, 0.3s;
   transition: all, 0.3s;
+
 }
 .cause .cause-progress {
   margin: 0 10px 15px;
@@ -287,7 +290,7 @@ a:hover, a:focus, a:active {
 }
 .cause .cause-title {
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   font-weight: bold;
 }
 .cause .cause-details {
@@ -295,7 +298,7 @@ a:hover, a:focus, a:active {
   padding: 0 15px;
   font-size: 13px;
   margin-bottom: 15px;
-  min-height: 115px;
+  min-height: 50px;
 }
 .cause:hover {
   background: #f0f0f0;
@@ -397,6 +400,7 @@ a:hover, a:focus, a:active {
 }
 .footer-form .btn-submit:hover {
   background: #fff;
+
 }
 .footer-form input:-moz-placeholder,
 .footer-form textarea:-moz-placeholder {
@@ -497,27 +501,34 @@ form .alert {
   background: #115c9b;
   border: none;
   border-radius: 0;
-  padding: 10px 25px;
+  padding: 10px ;
   border: 1px solid transparent;
   -moz-transition: all, 0.3s;
   -o-transition: all, 0.3s;
   -webkit-transition: all, 0.3s;
   transition: all, 0.3s;
+  margin-bottom: 20px;
+  margin-top:20px;
+  width:content;
+  text-align: center;
 }
 .btn-primary:hover {
-  background: #fff;
-  color: #1f76bd;
-  border: 1px solid #1f76bd;
+  border: 4px solid #115c9b;
+  width: 40% ;
+    height: 65%;
 }
 
 .btn-secondary {
-  background: #fff;
-  color: #1f76bd;
+  background: #1f76bd;
+  color: #fff;
   border-radius: 0;
+
 }
 .btn-secondary:hover {
   background: #1f76bd;
   color: #fff;
+  width: 20% ;
+
 }
 
 .title-style-1 {
@@ -564,6 +575,7 @@ form .alert {
 .form-control {
   border-radius: 0;
   box-shadow: none;
+  margin-top: 20px;
 }
 
 /* Tabeles
@@ -771,6 +783,8 @@ form .alert {
   }
   .carousel-home .carousel-subtitle {
     font-size: 18px;
+    font-color:red;
+    color:red;
   }
   .carousel-home .btn {
     margin-top: 15px;
@@ -1057,3 +1071,21 @@ form .alert {
   -webkit-animation-name: zoomIn;
   animation-name: zoomIn;
 }
+
+ .div1{
+
+    display:inline-block;
+    margin-top:50px;
+    width:180px;
+    margin-left:150px;
+
+ }
+ .col-md-3{
+
+    display:inline-block;
+    margin-top:50px;
+    width:300px;
+
+    margin-left:180px;
+
+ }

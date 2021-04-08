@@ -1,0 +1,60 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+	<div class="page-heading text-center">
+		<div class="container zoomIn animated">
+			<h1 class="page-title">SIGNUP <span class="title-under"></span></h1>
+		</div>
+	</div>
+
+	<div class="main-container fadeIn animated">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-7 col-sm-12 col-form">
+					<h2 class="title-style-2">SIGNUP FORM <span class="title-under"></span></h2>
+                {% if form.non_field_errors %}
+                    <ul style="color: red;text-align: center;">
+                        {{ form.non_field_errors.as_ul }}
+                    </ul>
+                    {% endif %}
+
+					<form method="POST" enctype="multipart/form-data">
+					  {% csrf_token %}
+                        <div class="form-group">
+							<label class="col-form-label">First Name</label>
+							{{ form.first_name }}
+							<label class="col-form-label">Last Name</label>
+							{{ form.last_name }}
+						</div>
+						<div class="form-group">
+							<label class="col-form-label">Username</label>
+							{{ form.username }}
+                            <label class="col-form-label">Mobile</label>
+							{{ form.mobile_phone }}
+						</div>
+                        <div class="form-group">
+							<label class="col-form-label">Email</label>
+							{{ form.email }}
+						</div>
+                        <div class="form-group">
+							<label class="col-form-label">Password</label>
+                            {{ form.password1 }}
+							<label class="col-form-label">Confirm Password</label>
+                            {{ form.password2 }}
+						</div>
+                        {% comment %} <a href="{% url 'password_reset' %}" class="text-white">
+								<i class="fas fa-sign-out-alt mr-2"></i>forget </a> {% endcomment %}
+
+						<div class="right-w3l">
+							<input type="submit" class="btn btn-primary" value="SignUp">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

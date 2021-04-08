@@ -1,7 +1,8 @@
+from django.utils import timezone
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render , redirect
 from django.contrib.auth import views as auth_views, login
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
@@ -10,27 +11,28 @@ from django.views import generic
 from django.urls import reverse_lazy
 from django.core.files.storage import FileSystemStorage
 from django.core.mail import EmailMessage
-
-from .forms import LoginForm, SignupForm
+from .forms import LoginForm, SignupForm , EditProfileForm
 from django.contrib.auth.forms import PasswordResetForm
 from . import models
 from fundraising.models.project import Project
 from fundraising.models.categories import Category
 from fundraising.models.images import Image
 from fundraising.models.user_donation import Donation
-
 from django.contrib.auth import get_user_model
 from django.views.generic.edit import DeleteView
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
 
 
 class LoginView(auth_views.LoginView):
     form_class = LoginForm
     template_name = 'accounts/login.html'
-    # test="test"
-    # response_template = 'accounts/login.html'
+
     def get(self, request):
         form_class = self.form_class
-        return render(request, self.template_name, {'form' : form_class})
+        categories = Category.objects.all()
+        return render(request, self.template_name, {'form' : form_class,'categories': categories})
 
 def password_reset_request(request):
     if request.method == "POST":
@@ -39,9 +41,7 @@ def password_reset_request(request):
         if password_reset_form.is_valid():
             data = password_reset_form.cleaned_data['email']
             associated_users = User.objects.filter(Q(email=data))
-            # You can use more than one way like this for resetting the password.
-            # ...filter(Q(email=data) | Q(username=data))
-            # but with this you may need to change the password_reset form as well.
+           
             if associated_users.exists():
                 for user in associated_users:
                     subject = "Password Reset Requested"
@@ -69,7 +69,6 @@ def password_reset_request(request):
 def profile(request,u_id):
     user_data = models.MyUser.objects.get(id=u_id)
     categories = Category.objects.all()
-
     return render(request, 'accounts/profile.html', {'user_data': user_data,'categories': categories})
 
 def projects(request,u_id):
@@ -92,32 +91,7 @@ class UserDelete(DeleteView):
     model = User
     success_url = reverse_lazy('home')
     template_name = 'accounts/user_confirm_delete.html'
-
-def edit_profile(request,u_id):
-    categories = Category.objects.all()
-    
-    if request.method == "GET":
-        user_data = models.MyUser.objects.get(id=u_id)
-        return render(request, 'accounts/edit_profile.html', {'user_data': user_data,'categories': categories})
-
-    else:
-        user_data = models.MyUser.objects.get(id=u_id)
-
-        if request.FILES['profile_img'] :
-            prof_img = request.FILES['profile_img']
-            fs = FileSystemStorage()
-            filename = fs.save(prof_img.name, prof_img)
-            uploaded_file_url = fs.url(filename)
-        else:
-            uploaded_file_url = user_data.image_path 
-  
-
-        models.MyUser.objects.filter(id=u_id).update(first_name= request.POST.get('firstName'), last_name= request.POST.get('lastName') ,
-            password=request.POST.get('password') , mobile_number=request.POST.get('phone') , birth_date=request.POST.get('birthdate') ,
-            image_path=uploaded_file_url ,face_profile=request.POST.get('face_profile') , country=request.POST.get('country') ),
-
-        return render(request, 'accounts/edit_profile.html')
-        
+     
 
 def signup(request):
     if request.method == 'POST':
@@ -161,3 +135,58 @@ def activate(request, uidb64, token):
         return render(request, 'accounts/activation_done.html')
     else:
         return HttpResponse('Activation link is invalid!')
+
+
+
+# @login_required
+def edit_profile(request,u_id):
+    categories = Category.objects.all()
+    user_data = models.MyUser.objects.get(id=u_id)
+    categories = Category.objects.all()
+    args = {}
+    args['categories'] = categories
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid() :
+            
+            if len(request.FILES) != 0:
+                prof_img = request.FILES['image_path']
+                fs = FileSystemStorage()
+                filename = fs.save(prof_img.name, prof_img)
+                uploaded_file_url = fs.url(filename)
+            else:
+                uploaded_file_url = user_data.image_path 
+
+            user_form = form.save()
+            user_form.image_path=uploaded_file_url
+
+            user_form.save()
+            return redirect('profile',u_id)
+        else:
+            args['form'] = form
+            return render(request, 'accounts/edit_profile.html',args )        
+    else:
+        form = EditProfileForm(instance=user_data)
+        args['form'] = form
+        args['user_data'] = user_data
+    return render(request, 'accounts/edit_profile.html',args )     
+
+
+def change_password(request,u_id):
+    categories = Category.objects.all()
+    args = {}
+    args['categories'] = categories
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        args['form'] = form
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user) 
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('profile',u_id)
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+        args['form'] = form
+    return render(request, 'accounts/change_password.html', args)      

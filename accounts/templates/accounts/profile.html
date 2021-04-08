@@ -23,6 +23,9 @@ login page
                                 <input type="file" name="file"/>
                             </div> {% endcomment %}
                         </div>
+                        <div>
+                        <a href="{% url 'change_password' user.id%}">change your password</a>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="profile-head">

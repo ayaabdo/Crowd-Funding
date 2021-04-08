@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model, password_validation
 from django.utils.translation import ugettext_lazy as _
 
 from .models import MyUser
-
+from django.forms import ModelForm
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
@@ -66,3 +66,53 @@ class SignupForm(UserCreationForm):
         model = MyUser
         fields = ('username', 'first_name', 'last_name', 'mobile_number',
                   'email', 'password1', 'password2')
+
+
+
+class EditProfileForm(ModelForm):
+    first_name = forms.CharField(max_length=30, required=True, help_text='Optional.',
+                                 widget=forms.TextInput({
+                                     'class': 'form-control form-control-user',
+                                     'id': 'first_name',
+                                     'placeholder': 'first name'}))
+    last_name = forms.CharField(max_length=30, required=True, help_text='Optional.',
+                                widget=forms.TextInput({
+                                    'class': 'form-control form-control-user',
+                                    'id': 'last_name',
+                                    'placeholder': 'last name'}))
+    username = forms.CharField(max_length=254,
+                               widget=forms.TextInput({
+                                   'class': 'form-control form-control-user',
+                                   'id': 'username',
+                                   'placeholder': 'Username'}))
+    mobile_number = forms.RegexField(
+                                regex=r'^01[0125][0-9]{8}$',
+                                help_text='invalid phone number',
+                                widget=forms.TextInput({
+                                    'class': 'form-control form-control-user',
+                                    'id': 'mobile_number',
+                                    'placeholder': 'Mobile'}))
+    birth_date = forms.CharField(
+                               widget=forms.TextInput({
+                                   'class': 'form-control form-control-user',
+                                   'id': 'birth_date',
+                                   'placeholder': 'birth_date',
+                                   'type':'date'
+                                   }))  
+    face_profile = forms.CharField(max_length=100,
+                               required=False,
+                               widget=forms.TextInput({
+                                   'class': 'form-control form-control-user',
+                                   'id': 'face_profile',
+                                   'placeholder': 'face_profile'})) 
+    country = forms.CharField(max_length=50,
+                               required=False,
+                               widget=forms.TextInput({    
+                                   'class': 'form-control form-control-user',
+                                   'id': 'country',
+                                   'placeholder': 'country'}))                                                                                               
+    class Meta:
+        model = MyUser
+        fields = ('username', 'first_name', 'last_name', 'mobile_number',
+                   'image_path', 'birth_date', 'face_profile', 'country')      
+

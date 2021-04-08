@@ -14,6 +14,7 @@ user Donation page
   <thead class='thead-dark'>
     <tr>
       <th scope="col">Donation</th>
+      <th scope="col">Project Title</th>
       <th scope="col">Project Images</th>
       <th scope="col">View Project</th>
       {% comment %} <th> {{user_donations.0.amount_of_donation}}</th> {% endcomment %}
@@ -24,9 +25,17 @@ user Donation page
     <tr>
       <th>{{ donate.amount_of_donation }}</th>
       <td>
+      {% for project in projects %}
+        {% if project.id == donate.project_ID.id  %}
+          {{ project.title }}
+        {% endif %}
+      {% endfor %}
+      </td>
+
+      <td>
       {% for img in all_images %}
         {% if img.proj_id.id == donate.project_ID.id  %}
-          <img src="{{ img.image_path }}">
+          <img style="width: 34px;" src="{{ img.image_path }}">
         {% endif %}
       {% endfor %}
       </td>

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth import views as auth_views
 from django.views import generic
 from django.urls import reverse_lazy
+from django.core.files.storage import FileSystemStorage
 
 from .forms import LoginForm
 from django.contrib.auth.forms import PasswordResetForm
@@ -16,6 +17,11 @@ from django.views.generic.edit import DeleteView
 class LoginView(auth_views.LoginView):
     form_class = LoginForm
     template_name = 'accounts/login.html'
+    # test="test"
+    # response_template = 'accounts/login.html'
+    def get(self, request):
+        form_class = self.form_class
+        return render(request, self.template_name, {'form' : form_class})
 
 def password_reset_request(request):
     if request.method == "POST":
@@ -64,7 +70,8 @@ def projects(request,u_id):
 def donations(request,u_id):
     user_donations = Donation.objects.filter(user_ID=u_id)
     images = Image.objects.all()
-    return render(request, 'accounts/donations.html', {'user_donations': user_donations, 'all_images': images})
+    projects = Project.objects.filter(user_ID=u_id)
+    return render(request, 'accounts/donations.html', {'user_donations': user_donations, 'all_images': images, 'projects':projects})
 
 
 User = get_user_model()
@@ -82,24 +89,20 @@ def edit_profile(request,u_id):
     else:
         user_data = models.MyUser.objects.get(id=u_id)
 
-        # if request.POST.get('photo') :
-        #     myfile = request.FILES['photo']
-        #     fs = FileSystemStorage()
-        #     filename = fs.save(myfile.name, myfile)
-        #     uploaded_file_url = fs.url(filename)
-        # else:
-        #      uploaded_file_url = item.photo  
-
-        # if request.POST.get('visible','') == 'on':
-        #     visible_val=True
-        # else:
-        #     visible_val=False    
+        if request.FILES['profile_img'] :
+            prof_img = request.FILES['profile_img']
+            fs = FileSystemStorage()
+            filename = fs.save(prof_img.name, prof_img)
+            uploaded_file_url = fs.url(filename)
+        else:
+            uploaded_file_url = user_data.image_path 
+  
 
         models.MyUser.objects.filter(id=u_id).update(first_name= request.POST.get('firstName'), last_name= request.POST.get('lastName') ,
             password=request.POST.get('password') , mobile_number=request.POST.get('phone') , birth_date=request.POST.get('birthdate') ,
-            face_profile=request.POST.get('face_profile') , country=request.POST.get('country') ),
+            image_path=uploaded_file_url ,face_profile=request.POST.get('face_profile') , country=request.POST.get('country') ),
 
-        return render(request, 'accounts/home.html')
+        return render(request, 'accounts/edit_profile.html')
         
 
     

@@ -22,4 +22,5 @@ class Project(models.Model):
     created_at = models.DateTimeField(null=True)
     start_date = models.DateTimeField(null=True)
     end_date = models.DateTimeField(null=True)
+    featured = models.BooleanField(default=False)
     #user_id

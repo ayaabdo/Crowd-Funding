@@ -7,8 +7,9 @@ from fundraising.models.comments import Comment
 from fundraising.models.rate import Rate
 from django.http import HttpResponse, JsonResponse
 from fundraising.forms.CommentForm import CommentForm
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def makeDonation(request, project_id):
     project = Project.objects.get(id=project_id)
     project.total_donation += int(request.POST.get('donation'))
@@ -16,10 +17,9 @@ def makeDonation(request, project_id):
     donation = Donation.objects.create(user_ID=request.user, project_ID=project_id,
                                        amount_of_donation=request.POST.get('donation'))
     donation.save()
-    #images = Image.objects.filter(proj_id=project_id)
-    #return render(request, 'projects/view.html', {'project_details': project, 'project_images': images})
     return redirect('view_project', project_id)
 
+@login_required
 def reportAproject(request, project_id):
     project = Project.objects.get(id=project_id)
     report = ReportAProject.objects.create(user_ID=request.user, project_ID=project_id,
@@ -27,6 +27,7 @@ def reportAproject(request, project_id):
     report.save()
     return redirect('project_list')
 
+@login_required
 def rate(request, project_id):
     template_name = 'projects/view.html'
     # username = request.GET.get('username', None)
@@ -75,9 +76,11 @@ def rate(request, project_id):
 
     return redirect(request.META['HTTP_REFERER'])
 
+@login_required
 def reportAcomment(request, project_id, comment_id):
     pass
 
+@login_required
 def comment(request,project_id):
     template_name = 'projects/view.html'
     project = Project.objects.get(id=project_id)
@@ -86,6 +89,7 @@ def comment(request,project_id):
     comment.save()
     return redirect('project_list')
 
+@login_required
 def editComment(request):
     # if request.method == "GET":
     #

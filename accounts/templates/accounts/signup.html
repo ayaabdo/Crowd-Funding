@@ -1,0 +1,73 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+	<div class="page-heading text-center">
+		<div class="container zoomIn animated">
+			<h1 class="page-title">SIGNUP <span class="title-under"></span></h1>
+		</div>
+	</div>
+
+	<div class="main-container fadeIn animated">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-7 col-sm-12 col-form">
+					<h2 class="title-style-2">SIGNUP FORM <span class="title-under"></span></h2>
+                    {% if form.errors %}
+                        <!-- Error messaging -->
+                        <div id="errors">
+                            <div class="inner">
+                                <p>There were some errors in the information you entered. Please correct the following:</p>
+                                {{ form.non_field_errors }}
+                                <ul>
+                                    {% for field in form %}
+                                        {% if field.errors %}<li>{{ field.label }}: {{ field.errors|striptags }}</li>{% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- /Error messaging -->
+                        <hr>
+                    {% endif %}
+
+					<form method="POST" enctype="multipart/form-data">
+					  {% csrf_token %}
+                        <div class="form-group">
+							<label class="col-form-label">First Name</label>
+							{{ form.first_name }}
+							<label class="col-form-label">Last Name</label>
+							{{ form.last_name }}
+						</div>
+						<div class="form-group">
+							<label class="col-form-label">Username</label>
+							{{ form.username }}
+                            <label class="col-form-label">Mobile</label>
+							{{ form.mobile_number }}
+						</div>
+                        <div class="form-group">
+							<label class="col-form-label">Email</label>
+							{{ form.email }}
+						</div>
+                        <div class="form-group">
+							<label class="col-form-label">Password</label>
+                            {{ form.password1 }}
+{#                            {{ form.password1.errors }}#}
+							<label class="col-form-label">Confirm Password</label>
+                            {{ form.password2 }}
+{#                            {{ form.password2.errors }}#}
+						</div>
+                        {% comment %} <a href="{% url 'password_reset' %}" class="text-white">
+								<i class="fas fa-sign-out-alt mr-2"></i>forget </a> {% endcomment %}
+
+						<div class="right-w3l">
+							<input type="submit" class="btn btn-primary" value="SignUp">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

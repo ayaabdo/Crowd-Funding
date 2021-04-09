@@ -82,8 +82,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'crowdfunding',
-        'USER': 'admin',
-        'PASSWORD': 'admin',
+        'USER': 'fundraising',
+        'PASSWORD': 'fund_12345',
         'HOST': '127.0.0.1',
     }
 }
@@ -120,6 +120,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'crowdfunding.1122@gmail.com'
+EMAIL_HOST_PASSWORD = '1122crowdfunding'
+EMAIL_PORT = 587
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

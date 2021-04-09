@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from accounts.views import LoginView
+from accounts.views import LoginView, signup
 
 '''from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -29,6 +29,8 @@ urlpatterns = [
     path('users/', include('django.contrib.auth.urls'), name='users'),
     path('accounts/', include('accounts.urls')),
     path('login/', LoginView.as_view(), name='login'),
+    path('signup/', signup, name='signup'),
+
    
 ]
 if settings.DEBUG:

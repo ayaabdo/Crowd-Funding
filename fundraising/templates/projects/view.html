@@ -58,6 +58,9 @@
 <link rel="stylesheet" href="{% static 'css/project-actions.css' %}" xmlns="http://www.w3.org/1999/html">
 {% endblock %}
 {% block header %}
+{% if project_details.user_ID == request.user %}
+  <a style="font-weight: bold; font-size: 20px;" href="{% url 'edit_project' project_details.id %}" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2">Edit</a>
+{% endif %}
  <div id="carouselExampleIndicators" class="carousel slide col-md-5 col-md-offset-3" data-ride="carousel" margin="auto">
   <ol class="carousel-indicators">
       {% for img in project_images %}
@@ -75,7 +78,7 @@
        {% else %}
             <div class="item">
         {% endif %}
-            <img src="{{ img.image_path }}" style="height: 400px;">
+            <img class="img-fluid" src="{{ img.image_path }}" style="height: 400px;">
             </div>
     {% endfor %}
 
@@ -100,6 +103,7 @@ Project OverAll Rating:
 </div>
 <div class="container text-left">
 <div class="form-group">
+<<<<<<< HEAD
  <span style="font-weight: bold; font-size: 30px;">{{request.user}} rate :</span>
 <form class="form-rate" action="{% url 'rate_detail' project_details.id %}" method="POST" enctype="multipart/form-data" >
 {% csrf_token %}
@@ -159,45 +163,50 @@ Project OverAll Rating:
          </div>
     {% endif %}
 
-
+</form>
 </div>
 
-</form>
+
 
 <div class="form-group">
 <span style="font-weight: bold; font-size: 30px;">Title</span>
 <input style="font-size: 20px;" class="form-control" type="text" placeholder="{{project_details.title}}" readonly>
+<!--=======-->
+<LABEL for="title" style="font-weight: bold; font-size: 30px;">Title</LABEL>
+<input id="title" style="font-size: 20px;" class="form-control" type="text" value="{{project_details.title}}" readonly>
+<!--&gt;>>>>>> 65059fd8a0acd078063f88503030787bb5ecc4eb-->
 </div>
 <div class="form-group ">
-<span style="font-weight: bold; font-size: 30px;">Details</span>
-<textarea style="font-size: 20px;" class="form-control" type="text" placeholder="{{project_details.details}}" readonly>
+<LABEL for="details" style="font-weight: bold; font-size: 30px;">Details</LABEL>
+<textarea id="details" style="font-size: 20px;" class="form-control" type="text" value="{{ project_details.details }}" readonly>
+{{ project_details.details }}
 </textarea>
 </div>
 <div class="form-group">
-<span style="font-weight: bold; font-size: 30px;">Category</span>
-<input style="font-size: 20px;" class="form-control" type="text" placeholder="{{project_details.cat_id.cat_name}}" readonly>
+<LABEL for="cat" style="font-weight: bold; font-size: 30px;">Category</LABEL>
+<input id="cat" style="font-size: 20px;" class="form-control" type="text" value="{{project_details.cat_id.cat_name}}" readonly>
 </div>
 <div class="form-group">
-<span style="font-weight: bold; font-size: 30px;">Tags</span>
+<label style="font-weight: bold; font-size: 30px;">Tags</label>
 {% for tag in project_details.tags.all %}
-<input style="font-size: 20px;" class="form-control" type="text" placeholder="{{ tag.tag_name }}" readonly>
+<input style="font-size: 20px;" class="form-control" type="text" value="{{ tag.tag_name }}" readonly>
 {% endfor %}
 </div>
 <div class="form-group">
-<span style="font-weight: bold; font-size: 30px;">Total Target</span>
-<input style="font-size: 20px;" class="form-control" type="text" placeholder="{{project_details.total_target}}" readonly>
+<LABEL for="target" style="font-weight: bold; font-size: 30px;">Total Target</LABEL>
+<input id="target" style="font-size: 20px;" class="form-control" type="text" value="{{project_details.total_target}}" readonly>
 </div>
 <div class="form-group">
-<span style="font-weight: bold; font-size: 30px;">Total Donation</span>
-<input style="font-size: 20px;" class="form-control" type="text" placeholder="{{project_details.total_donation}}" readonly>
+<label for="donation" style="font-weight: bold; font-size: 30px;">Total Donation</label>
+<input id="donation" style="font-size: 20px;" class="form-control" type="text" value="{{project_details.total_donation}}" readonly>
 </div>
 <div class="form-group">
-<span style="font-weight: bold; font-size: 30px;">Start date</span>
-<input style="font-size: 20px;" class="form-control" type="text" placeholder="{{project_details.start_date}}" readonly>
+<label for="start" style="font-weight: bold; font-size: 30px;">Start date</label>
+<input id="start" style="font-size: 20px;" class="form-control" type="text" value="{{project_details.start_date}}" readonly>
 </div>
 <div class="form-group">
-<span style="font-weight: bold; font-size: 30px;">End date</span>
-<input style="font-size: 20px;" class="form-control" type="text" placeholder="{{project_details.end_date}}" readonly>
+<label for="end" style="font-weight: bold; font-size: 30px;">End date</label>
+<input id="end" style="font-size: 20px;" class="form-control" type="text" value="{{project_details.end_date}}" readonly>
 </div>
 
 <div class="card-body">

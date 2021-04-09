@@ -10,19 +10,19 @@ def index(request):
     projects = Project.objects.all()
     categories = Category.objects.all()
     images = Image.objects.all()
-    projectRates = Rate.objects.all().values('proj_ID','overall_avg_rating').extra(order_by=['-overall_avg_rating']) [:5]
-    ratedProjects = []
-    for p in projectRates:
-        ratedProjects.extend(
-            list(Project.objects.filter(id=p.get('proj_ID'))))
-    lastFiveProject = Project.objects.extra(order_by=['-created_at'])[:5]
-    featured = Project.objects.all().filter(featured='True').extra(order_by=['-created_at'])[:5]
+    # projectRates = Rate.objects.all().values('proj_ID','overall_avg_rating').extra(order_by=['-overall_avg_rating']) [:5]
+    # ratedProjects = []
+    # for p in projectRates:
+    #     ratedProjects.extend(
+    #         list(Project.objects.filter(id=p.get('proj_ID'))))
+    # lastFiveProject = Project.objects.extra(order_by=['-created_at'])[:5]
+    # featured = Project.objects.all().filter(featured='True').extra(order_by=['-created_at'])[:5]
     context = {
-        'ratedProjects': ratedProjects ,
-        'projectRates': projectRates,
-        'featured': featured,
+        # 'ratedProjects': ratedProjects ,
+        # 'projectRates': projectRates,
+        # 'featured': featured,
         'projects': projects,
-        'lastFiveProject': lastFiveProject ,
+        # 'lastFiveProject': lastFiveProject ,
         'categories': categories,
         'all_images': images,
                }

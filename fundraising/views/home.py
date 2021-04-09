@@ -22,7 +22,7 @@ def index(request):
     context = {
         # 'ratedProjects': ratedProjects ,
         'ratedProjects': ratedProjects,
-        # 'featured': featured,
+        'featured': featured,
         # 'projects': projects,
         # 'lastFiveProject': lastFiveProject ,
         # 'categories': categories,

@@ -10,6 +10,7 @@ from accounts.models import MyUser
 from django.forms import modelformset_factory
 from django.contrib import messages
 from fundraising.models.tags import Tag
+from fundraising.models.rate import Rate
 from fundraising.models.report_project import ReportAProject
 
 def index(request):
@@ -21,11 +22,16 @@ def index(request):
 def view(request, project_id):
         project = get_object_or_404(Project, id=project_id)
         images = Image.objects.filter(proj_id=project_id)
-
+        ratequery = Rate.objects.filter(user_ID=request.user, proj_ID=project_id)
         comments =project.comments.filter(active=True)
 
-        return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
-                                                      'comments':comments})
+        if(ratequery.count() > 0):
+            rate = Rate.objects.get(user_ID=request.user, proj_ID=project_id)
+            return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
+                                                'comments':comments,'rate':rate.individual_rate})
+        else:
+            return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
+                                                          'comments': comments,'rate':-1})
 
 def create(request):
     if request.method == "GET":

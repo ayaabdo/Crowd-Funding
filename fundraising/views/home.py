@@ -15,15 +15,17 @@ def index(request):
     # for p in projectRates:
     #     ratedProjects.extend(
     #         list(Project.objects.filter(id=p.get('proj_ID'))))
-    # lastFiveProject = Project.objects.extra(order_by=['-created_at'])[:5]
-    # featured = Project.objects.all().filter(featured='True').extra(order_by=['-created_at'])[:5]
+    ratedProjects = Project.objects.extra(order_by=['-overall_avg_rating'])[:5]
+
+    lastFiveProject = Project.objects.extra(order_by=['-created_at'])[:5]
+    featured = Project.objects.all().filter(featured='True').extra(order_by=['-created_at'])[:5]
     context = {
         # 'ratedProjects': ratedProjects ,
-        # 'projectRates': projectRates,
+        'ratedProjects': ratedProjects,
         # 'featured': featured,
-        'projects': projects,
+        # 'projects': projects,
         # 'lastFiveProject': lastFiveProject ,
-        'categories': categories,
+        # 'categories': categories,
         'all_images': images,
                }
     return render(request, 'home/index.html', context)

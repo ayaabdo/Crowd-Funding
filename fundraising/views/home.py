@@ -19,7 +19,7 @@ def index(request):
         'featured': featured,
         # 'projects': projects,
         'lastFiveProject': lastFiveProject ,
-        # 'categories': categories,
+        'categories': categories,
         'all_images': images,
                }
     return render(request, 'home/index.html', context)

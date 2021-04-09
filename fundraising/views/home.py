@@ -24,7 +24,7 @@ def index(request):
         'ratedProjects': ratedProjects,
         'featured': featured,
         # 'projects': projects,
-        # 'lastFiveProject': lastFiveProject ,
+        'lastFiveProject': lastFiveProject ,
         # 'categories': categories,
         'all_images': images,
                }

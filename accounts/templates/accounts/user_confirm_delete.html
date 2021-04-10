@@ -6,21 +6,14 @@ login page
 
 {% block content %}
 
-<div style="
-    margin: auto;
-    text-align: center;
-    border: solid;
-    width: 444px;
-    padding: 49px;
-    margin-top: 36px;
-    font-size: 21px;
-    color: black;
-">
+<div style="margin: auto;text-align: center;border: solid;width: 444px;padding: 49px;margin-top: 36px; margin-bottom: 42px; font-size: 21px; color: black;">
   {% if user.is_authenticated %}
     <form method="post">
         {% csrf_token %}
         <p>Are you sure you want to delete your account?</p>
         <input type="submit" value="Confirm">
+
+        <a href="{% url 'profile' user.id %}" style="border: 1px solid;padding: 3px;text-decoration: none;background-color: #a2c1a2;"> Cancel</a>
     </form>
   {% endif %}  
 </div>

@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,10 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'fundraising',
     'accounts',
+    'social_django',
 ]
 
-AUTH_USER_MODEL = 'accounts.MyUser' 
-AUTHENTICATION_BACKENDS = ['accounts.backends.EmailBackend']
+AUTH_USER_MODEL = 'accounts.MyUser'
+AUTHENTICATION_BACKENDS = [
+    'accounts.backends.EmailBackend',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -52,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'crowdfunding.urls'
@@ -59,7 +64,7 @@ ROOT_URLCONF = 'crowdfunding.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates'),'accounts.templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), 'accounts.templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -67,6 +72,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',  # <--
+                'social_django.context_processors.login_redirect',  # <--
             ],
         },
     },
@@ -74,16 +81,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'crowdfunding.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'crowdfunding',
-        'USER': 'admin',
-        'PASSWORD': 'admin',
+        'USER': 'fundraising',
+        'PASSWORD': 'fund_12345',
         'HOST': '127.0.0.1',
     }
 }
@@ -106,7 +113,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -120,13 +126,16 @@ USE_L10N = True
 
 USE_TZ = True
 
+# # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'crowdfunding.1122@gmail.com'
+# EMAIL_HOST_PASSWORD = '1122crowdfunding'
+# EMAIL_PORT = 587
 
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'crowdfunding.1122@gmail.com'
-EMAIL_HOST_PASSWORD = '1122crowdfunding'
-EMAIL_PORT = 587
+
+
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -135,8 +144,20 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # media directory in the root directory
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # media directory in the root directory
 MEDIA_URL = '/media/'
 
-LOGIN_REDIRECT_URL='/home'
-LOGOUT_REDIRECT_URL='/home'
+LOGIN_REDIRECT_URL = '/home'
+LOGOUT_REDIRECT_URL = '/home'
+
+# setting the timeout of days for the activation link and reset password
+PASSWORD_RESET_TIMEOUT_DAYS = 1
+
+# this for signup and sign-in using Facebook and Google
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+SOCIAL_AUTH_FACEBOOK_KEY = '180872103864511'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = '81c9598caf29e13f53d74f6c973104b9'  # App Secret
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '303743977747-ftjqu8tvhm3epi0n6q3aeda8nmttqp95.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'TyXBMp8Y-wHB85HJroNhoEwY'

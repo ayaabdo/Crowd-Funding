@@ -6,7 +6,7 @@ edit profile page
 
 
 {% block styles %}
-    {% comment %} <link rel="stylesheet" href="{% static 'assets/css/profile.css' %}">  {% endcomment %}
+    <link rel="stylesheet" href="{% static 'assets/css/profile.css' %}"> 
 {% endblock %}
 
 {% block content %}
@@ -25,7 +25,7 @@ edit profile page
         <strong>Oops!</strong> Profile not saved. Try later.
       </div> {% endcomment %}
 	  	  {% if form.errors %}
-                        <div id="errors">
+                        <div id="errors" style="color:red">
                             <div class="inner">
                                 <p>Errors :</p>
                                 {{ form.non_field_errors }}
@@ -95,13 +95,12 @@ edit profile page
         
 	    </div>	
 		<div class="col-md-6 col-md-4">
-{{form.image_path}}
 
 			 <div class="profile-img" >
-				<img src="{{user_data.image_path}}" alt="" style="width: 117px;"/>
+				<img src="{{user_data.image_path}}" alt="" />
 				 <div class="file btn btn-lg btn-primary">
-					{% comment %} Change Photo  {% endcomment %}
-				 {% comment %} <input type="file" name="profile_img"/>  {% endcomment %}
+					 Change Photo 
+					 {{form.image_path}}
 				 
 				 </div>  
 			 </div> 

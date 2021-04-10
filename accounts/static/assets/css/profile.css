@@ -46,6 +46,30 @@ body{
     color: #6c757d;
     cursor: pointer;
 }
+.profile-links{
+    border: 1px solid;
+    border-radius: 14px;
+    padding: 7px;
+    text-align: center;
+    margin-bottom: 12px;
+    color: black;
+}
+#profile-edit{
+    background-color: yellowgreen;
+}
+#profile-delete{
+    background-color: #dc3545;
+}
+#profile-conf{
+    background-color: #35aedc;
+}
+.profile-links > a{
+    text-decoration: none;
+}
+.profile-links:hover{
+    background-color: gray;
+    color: white;
+}
 .proile-rating{
     font-size: 12px;
     color: #818182;

@@ -1,6 +1,7 @@
 from django.db import models
 from .comments import Comment
 from accounts.models import MyUser
+from .project import Project
 
 class ReportAComment(models.Model):
     user_ID = models.ForeignKey(MyUser, on_delete=models.SET_NULL, null=True)

@@ -14,7 +14,7 @@ from django.contrib import messages
 from fundraising.models.tags import Tag
 from fundraising.models.rate import Rate
 from fundraising.models.report_project import ReportAProject
-@login_required
+
 def index(request):
     categories = Category.objects.all()
     projects = Project.objects.all()
@@ -25,8 +25,8 @@ def index(request):
 @login_required
 def view(request, project_id):
         project = get_object_or_404(Project, id=project_id)
+        # tagedProjects = Project.objects.all().filter(tag_id=project.tags)
         images = Image.objects.filter(proj_id=project_id)
-# <<<<<<< HEAD
         ratequery = Rate.objects.filter(user_ID=request.user, proj_ID=project_id)
         comments =project.comments.filter(active=True)
 
@@ -38,13 +38,11 @@ def view(request, project_id):
             return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
                                                           'comments': comments,'rate':-1})
 
-# =======
         comments =project.comments.filter(active=True)
 
         return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
                                                       'comments':comments})
 @login_required
-# >>>>>>> 65059fd8a0acd078063f88503030787bb5ecc4eb
 def create(request):
     if request.method == "GET":
         tags = Tag.objects.all()
@@ -125,8 +123,9 @@ def search(request):
         print('searchBox')
         project = Project.objects.filter(title__icontains=q)
         images = Image.objects.all()
+        categories = Category.objects.all()
         # return show(request, project)
-        return render(request, "home/srch.html", {'project': project, 'all_images': images})
+        return render(request, "home/srch.html", {'project': project, 'categories': categories,'all_images': images})
 
 # def show(request, id):
 #     # project = Project.objects.get(id=id)

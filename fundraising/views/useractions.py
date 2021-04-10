@@ -14,7 +14,7 @@ def makeDonation(request, project_id):
     project = Project.objects.get(id=project_id)
     project.total_donation += int(request.POST.get('donation'))
     project.save()
-    donation = Donation.objects.create(user_ID=request.user, project_ID=project_id,
+    donation = Donation.objects.create(user_ID=request.user, project_ID=project,
                                        amount_of_donation=request.POST.get('donation'))
     donation.save()
     return redirect('view_project', project_id)
@@ -22,7 +22,7 @@ def makeDonation(request, project_id):
 @login_required
 def reportAproject(request, project_id):
     project = Project.objects.get(id=project_id)
-    report = ReportAProject.objects.create(user_ID=request.user, project_ID=project_id,
+    report = ReportAProject.objects.create(user_ID=request.user, project_ID=project,
                                            description=request.POST.get('report-content'))
     report.save()
     return redirect('project_list')

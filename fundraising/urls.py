@@ -3,7 +3,7 @@ from django.conf.urls import url
 from .views import home, projects, useractions, comments
 
 urlpatterns = [
-    #path('', home.index, name='home'),
+    path('', home.index, name='home'),
     path('home', home.index, name='home'),
     path('about', home.about, name='about'),
     path('search', projects.search, name='searchbar'),

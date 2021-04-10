@@ -14,7 +14,7 @@ from django.contrib import messages
 from fundraising.models.tags import Tag
 from fundraising.models.rate import Rate
 from fundraising.models.report_project import ReportAProject
-@login_required
+
 def index(request):
     categories = Category.objects.all()
     projects = Project.objects.all()
@@ -26,7 +26,6 @@ def index(request):
 def view(request, project_id):
         project = get_object_or_404(Project, id=project_id)
         images = Image.objects.filter(proj_id=project_id)
-# <<<<<<< HEAD
         ratequery = Rate.objects.filter(user_ID=request.user, proj_ID=project_id)
         comments =project.comments.filter(active=True)
 
@@ -38,13 +37,11 @@ def view(request, project_id):
             return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
                                                           'comments': comments,'rate':-1})
 
-# =======
         comments =project.comments.filter(active=True)
 
         return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
                                                       'comments':comments})
 @login_required
-# >>>>>>> 65059fd8a0acd078063f88503030787bb5ecc4eb
 def create(request):
     if request.method == "GET":
         tags = Tag.objects.all()

@@ -113,8 +113,6 @@
                     <li><a href="{% url 'about' %}">ABOUT</a></li>
                     <li class="has-child"><a >CATEGORY</a>
                          <ul class="submenu">
-
-
                              {% for cat in categories %}
                              <ul class="category">
                                <li class="submenu-item"><a href="{% url 'showCategory' cat.id %}">{{cat.cat_name }} </a></li>
@@ -122,19 +120,9 @@
                              {% endfor %}
                          </ul>
 
-<!--                      <ul class="submenu">-->
-<!--                         <li class="submenu-item"><a href="layout/causes.html">Causes list </a></li>-->
-<!--                         <li class="submenu-item"><a href="layout/causes-single.html">Single cause </a></li>-->
-<!--                         <li class="submenu-item"><a href="layout/causes-single.html">Single cause </a></li>-->
-<!--                         <li class="submenu-item"><a href="layout/causes-single.html">Single cause </a></li>-->
-<!--                      </ul>-->
-
                     </li>
-                   {% if user.is_authenticated %}
+
                     <li><a href="{% url 'project_list' %}">PROJECTS</a></li>
-                   {% else %}
-                      <li><a href="{% url 'login' %}">PROJECTS</a></li>
-                    {% endif %}
 
                     <li><a href="layout/contact.html">CONTACT</a></li>
                     {% if user.is_authenticated %}
@@ -146,7 +134,7 @@
                             <li class="submenu-item"><a href="{% url 'logout' %}">logout </a></li>
                         </ul>
                         </li>
-                        {% else %}
+                    {% else %}
                     <li class="has-child"><a href="{% url 'login' %}" style="color: greenyellow;font-weight: bold;">LOGIN</a></li>
                     <li class="has-child"><a href="{% url 'signup' %}" style="color: greenyellow;font-weight: bold;">Register</a></li>
                     {% endif %}
@@ -176,34 +164,7 @@
     <!-- /.home-reasons -->
     {% block topratedprojects %}
     {% endblock %}
-    <!-- /.cause -->
-<!--    {% block sponsor %}-->
-<!--    <div class="section-home our-sponsors animate-onscroll fadeIn ">-->
 
-<!--        <div class="container">-->
-
-<!--            <h2 class="title-style-1">Our Sponsors <span class="title-under"></span></h2>-->
-
-<!--            <ul class="owl-carousel list-unstyled list-sponsors">-->
-
-<!--              <li> <img src="{% static 'images/sponsors/bus.png' %}" alt="" ></li>-->
-<!--              <li> <img src="{% static 'images/sponsors/wikimedia.png' %}" alt=""></li>-->
-<!--              <li> <img src="{% static 'images/sponsors/one-world.png' %}" alt=""></li>-->
-<!--              <li> <img src="{% static 'images/sponsors/wikiversity.png' %}" alt=""></li>-->
-<!--              <li> <img src="{% static 'images/sponsors/united-nations.png' %}" alt=""></li>-->
-
-<!--              <li> <img src="{% static 'images/sponsors/bus.png' %}" alt=""></li>-->
-<!--              <li> <img src="{% static 'images/sponsors/wikimedia.png' %}" alt=""></li>-->
-<!--              <li> <img src="{% static 'images/sponsors/one-world.png' %}" alt=""></li>-->
-<!--              <li> <img src="{% static 'images/sponsors/wikiversity.png' %}" alt=""></li>-->
-<!--              <li> <img src="{% static 'images/sponsors/united-nations.png' %}" alt=""></li>-->
-
-<!--            </ul>-->
-
-<!--        </div>-->
-
-<!--    </div> &lt;!&ndash; /.our-sponsors &ndash;&gt;-->
-<!--    {% endblock %}-->
     <footer class="main-footer">
 
         <div class="footer-top">

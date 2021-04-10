@@ -123,9 +123,9 @@ def search(request):
         print('searchBox')
         project = Project.objects.filter(title__icontains=q)
         images = Image.objects.all()
-        # categories = Category.objects.all()
+        categories = Category.objects.all()
         # return show(request, project)
-        return render(request, "home/srch.html", {'project': project, 'all_images': images})
+        return render(request, "home/srch.html", {'project': project, 'categories': categories,'all_images': images})
 
 # def show(request, id):
 #     # project = Project.objects.get(id=id)

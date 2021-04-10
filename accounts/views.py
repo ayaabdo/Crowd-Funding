@@ -24,6 +24,8 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 
+from .tokens import account_activation_token
+
 
 class LoginView(auth_views.LoginView):
     form_class = LoginForm
@@ -81,7 +83,7 @@ def signup(request):
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': default_token_generator.make_token(user),
+                'token': account_activation_token.make_token(user),
             })
             print(message)
             to_email = form.cleaned_data.get('email')
@@ -99,11 +101,9 @@ def activate(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
         user = User.objects.get(pk=uid)
-        print(user, uid, token)
-        print(default_token_generator.check_token(user, token))
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
-    if user is not None and default_token_generator.check_token(user, token):
+    if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
         login(request, user)

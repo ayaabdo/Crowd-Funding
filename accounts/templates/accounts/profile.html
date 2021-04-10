@@ -5,7 +5,6 @@ login page
 {% endblock %}
 
 {% block styles %}
-    {% comment %} <link rel="stylesheet" href="{% static 'assets/css/bootstrap-profile.min.css' %}"> {% endcomment %}
     <link rel="stylesheet" href="{% static 'assets/css/profile.css' %}"> 
 
 {% endblock %}
@@ -18,14 +17,8 @@ login page
                     <div class="col-md-4">
                         <div class="profile-img">
                             <img src="{{user_data.image_path}}" alt=""/>
-                            {% comment %} <div class="file btn btn-lg btn-primary">
-                                Change Photo
-                                <input type="file" name="file"/>
-                            </div> {% endcomment %}
                         </div>
-                        <div>
-                        <a href="{% url 'change_password' user.id%}">change your password</a>
-                        </div>
+                    
                     </div>
                     <div class="col-md-6">
                         <div class="profile-head">
@@ -46,10 +39,15 @@ login page
                         </div>
                     </div>
                     <div class="col-md-2">
-                        {% comment %} <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/> {% endcomment %}
-                        
-                        <a class="profile-edit-btn" href="{% url 'edit_profile' user.id %}">Edit Profile</a>
-                        <a class="profile-edit-btn" href="{% url 'user_confirm_delete' user.id %}">Delete Profile</a>
+                        <div class="profile-links" id="profile-edit">
+                        <a href="{% url 'edit_profile' user.id %}">Edit Profile</a>
+                        </div>
+                        <div class="profile-links" id="profile-delete">
+                        <a href="{% url 'user_confirm_delete' user.id %}">Delete Profile</a>
+                        </div>
+                        <div class="profile-links" id="profile-conf">
+                        <a href="{% url 'change_password' user.id%}">change your password</a>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -85,7 +83,7 @@ login page
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label>Phone</label>
+                                        <label>Mobile phone</label>
                                     </div>
                                     <div class="col-md-6">
                                         <p>{{user_data.mobile_number}}</p>
@@ -99,6 +97,23 @@ login page
                                         <p>{{user_data.birth_date}}</p>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>facebook profile</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{user_data.face_profile}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>country</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{user_data.country}}</p>
+                                    </div>
+                                </div>
+
                             </div>
                           
                         </div>

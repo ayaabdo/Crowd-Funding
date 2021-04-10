@@ -105,12 +105,20 @@ class EditProfileForm(ModelForm):
                                    'class': 'form-control form-control-user',
                                    'id': 'face_profile',
                                    'placeholder': 'face_profile'})) 
-    country = forms.CharField(max_length=50,
-                               required=False,
-                               widget=forms.TextInput({    
+    country = forms.RegexField(
+                                regex=r'^[a-zA-Z]{2,}$',
+                                max_length=50,
+                                required=False,
+                                widget=forms.TextInput({    
                                    'class': 'form-control form-control-user',
                                    'id': 'country',
-                                   'placeholder': 'country'}))                                                                                               
+                                   'placeholder': 'country'}))
+
+    image_path = forms.ImageField(
+                                widget=forms.FileInput(attrs={
+                                    'class': 'custom-file-input'}), 
+                                required=False)
+                                                                                                                 
     class Meta:
         model = MyUser
         fields = ('username', 'first_name', 'last_name', 'mobile_number',

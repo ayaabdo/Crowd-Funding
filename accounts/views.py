@@ -164,6 +164,7 @@ def edit_profile(request,u_id):
             return redirect('profile',u_id)
         else:
             args['form'] = form
+            args['user_data'] = user_data
             return render(request, 'accounts/edit_profile.html',args )        
     else:
         form = EditProfileForm(instance=user_data)

@@ -5,28 +5,46 @@ from fundraising.models.project import Project
 from fundraising.models.images import Image
 from fundraising.models.categories import Category
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q, Avg, Sum
 from accounts.models import MyUser
 #from fundraising.forms.imageform import ImageForm
 #from fundraising.forms.projectform import ProjectForm
 from django.forms import modelformset_factory
 from django.contrib import messages
 from fundraising.models.tags import Tag
+from fundraising.models.rate import Rate
 from fundraising.models.report_project import ReportAProject
 @login_required
 def index(request):
+    categories = Category.objects.all()
     projects = Project.objects.all()
     images = Image.objects.all()
-    return render(request, 'projects/index.html', {'all_projects': projects, 'all_images': images})
+
+    return render(request, 'projects/index.html', {'all_projects': projects, 'all_images': images,'categories': categories})
 
 @login_required
 def view(request, project_id):
         project = get_object_or_404(Project, id=project_id)
         images = Image.objects.filter(proj_id=project_id)
+# <<<<<<< HEAD
+        ratequery = Rate.objects.filter(user_ID=request.user, proj_ID=project_id)
+        comments =project.comments.filter(active=True)
+
+        if(ratequery.count() > 0):
+            rate = Rate.objects.get(user_ID=request.user, proj_ID=project_id)
+            return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
+                                                'comments':comments,'rate':rate.individual_rate})
+        else:
+            return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
+                                                          'comments': comments,'rate':-1})
+
+# =======
         comments =project.comments.filter(active=True)
 
         return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
                                                       'comments':comments})
 @login_required
+# >>>>>>> 65059fd8a0acd078063f88503030787bb5ecc4eb
 def create(request):
     if request.method == "GET":
         tags = Tag.objects.all()
@@ -97,3 +115,24 @@ def save_tags(tags, project):
     for elem in tags:
         selected_tag = Tag.objects.get(id=elem)
         project.tags.add(selected_tag)
+
+        #########################################################################################
+
+
+def search(request):
+    q = request.GET.get('searchy')
+    if q:
+        print('searchBox')
+        project = Project.objects.filter(title__icontains=q)
+        images = Image.objects.all()
+        # return show(request, project)
+        return render(request, "home/srch.html", {'project': project, 'all_images': images})
+
+# def show(request, id):
+#     # project = Project.objects.get(id=id)
+#     project = get_object_or_404(Project, id=id)
+#     context = {'project':project,
+#                }
+#     return render(request, "home/srch.html", context)
+
+

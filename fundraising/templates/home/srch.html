@@ -1,18 +1,18 @@
 {% extends 'layout/base.html' %}
 {% load static %}
 {% block title %}
-Projects
+search
 {% endblock %}
 {% block about %}
 <a class="col-md-2 col-md-offset-10 btn btn-primary" style="margin: 20px 1300px;" href="/project/add">Create new project</a>
 <br>
 {% load variables %}
 <div class="carousel-inner" role="listbox">
-    {% for project in all_projects %}
-        {% with True as found %}
+    {% for project in project %}
+    {% with True as found %}
     <div class="container col-md-3">
         <div class="reasons-col animate-onscroll fadeIn carousel slide" data-ride="carousel">
-            <div class="carousel-inner" role="listbox">
+            <div class="carousel-inner" role="listbox" >
                 {% for img in all_images %}
                 {% if img.proj_id.id == project.id  %}
                 {% if found %}
@@ -40,5 +40,5 @@ Projects
         </div>
         {% endfor %}
     </div>
- </div>
+
     {% endblock %}

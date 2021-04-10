@@ -1,14 +1,14 @@
 {% extends 'layout/base.html' %}
 {% load static %}
 {% block title %}
-Projects
+Category
 {% endblock %}
 {% block about %}
 <a class="col-md-2 col-md-offset-10 btn btn-primary" style="margin: 20px 1300px;" href="/project/add">Create new project</a>
 <br>
 {% load variables %}
 <div class="carousel-inner" role="listbox">
-    {% for project in all_projects %}
+    {% for project in category.project_set.all %}
         {% with True as found %}
     <div class="container col-md-3">
         <div class="reasons-col animate-onscroll fadeIn carousel slide" data-ride="carousel">

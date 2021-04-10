@@ -4,6 +4,57 @@
 {{project_details.title}}
 {% endblock %}
 {% block styles %}
+<style>
+    .rating {
+
+  width: 500px;
+  margin: 0 auto 2em;
+  font-size: 45px;
+<!--  overflow:hidden;-->
+}
+.rating input {
+  float: right;
+  opacity: 0;
+  position: absolute;
+}
+.rating button,
+.rating label {
+			float:right;
+			color: #aaa;
+			text-decoration: none;
+			-webkit-transition: color .4s;
+			-moz-transition: color .4s;
+			-o-transition: color .4s;
+			transition: color .4s;
+			background-color:inherit !important;
+            border: 0 !important;
+		}
+.rating label:hover ~ label,
+.rating input:focus ~ label,
+.rating label:hover,
+		.rating button:hover,
+		.rating button:hover ~ button,
+		.rating button:focus,
+		.rating button:focus ~ button		{
+			color: #f5be2e;
+			cursor: pointer;
+		}
+		.rating2 {
+		  margin-left:1%;
+            margin-bottom: 1%;
+			direction: rtl;
+		}
+		.rating2 button {
+			float:none
+		}
+.open-rateelements{
+    padding: 0px !important;
+    margin: 0px !important;
+    width: 20px;
+}
+</style>
+
+
 <link rel="stylesheet" href="{% static 'css/project-actions.css' %}" xmlns="http://www.w3.org/1999/html">
 {% endblock %}
 {% block header %}
@@ -44,10 +95,85 @@
 </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 {% endblock %}
 {% block content %}
+<div class="container text-center" >
+Project OverAll Rating:
+<fieldset class="starability-result mx-auto" data-rating="{{ project_details.overall_avg_rating }}" style="text-align: center;
+    margin: auto;">
+</fieldset>
+</div>
 <div class="container text-left">
 <div class="form-group">
+ <span style="font-weight: bold; font-size: 30px;">{{request.user}} rate :</span>
+<form class="form-rate" action="{% url 'rate_detail' project_details.id %}" method="POST" enctype="multipart/form-data" >
+{% csrf_token %}
+       <input type="text" name="therate" id="therate" hidden />
+
+    {% if rate == -1 %}
+    <div class="from-group rating rating2">
+        <button type="submit" title="Give 5 stars" data-value="5" class="open-rateelements" >★</button>
+         <button type="submit" title="Give 4 stars" data-value="4" class="open-rateelements">★</button>
+         <button type="submit" title="Give 3 stars" data-value="3" class="open-rateelements">★</button>
+         <button type="submit" title="Give 2 stars" data-value="2" class="open-rateelements">★</button>
+         <button type="submit" title="Give 1 star" data-value="1" class="open-rateelements">★</button>
+
+<!--        <a href="#1" title="Give 1 star" data-value="1" class="open-rateelements">★</a>-->
+    </div>
+    {% else %}
+        <div class="from-group rating rating2">
+            {% if rate == 1 %}
+         <button type="submit" title="Give 5 stars" data-value="5" class="open-rateelements" >★</button>
+         <button type="submit" title="Give 4 stars" data-value="4" class="open-rateelements">★</button>
+         <button type="submit" title="Give 3 stars" data-value="3" class="open-rateelements">★</button>
+         <button type="submit" title="Give 2 stars" data-value="2" class="open-rateelements">★</button>
+         <button type="submit" title="Give 1 star" data-value="1" class="open-rateelements" style="color:#f5be2e">★</button>
+
+
+           {%elif rate == 2%}
+            <button type="submit" title="Give 5 stars" data-value="5" class="open-rateelements" >★</button>
+         <button type="submit" title="Give 4 stars" data-value="4" class="open-rateelements">★</button>
+         <button type="submit" title="Give 3 stars" data-value="3" class="open-rateelements">★</button>
+         <button type="submit" title="Give 2 stars" data-value="2" class="open-rateelements" style="color:#f5be2e">★</button>
+         <button type="submit" title="Give 1 star" data-value="1" class="open-rateelements" style="color:#f5be2e">★</button>
+
+             {%elif rate == 3%}
+            <button type="submit" title="Give 5 stars" data-value="5" class="open-rateelements" >★</button>
+         <button type="submit" title="Give 4 stars" data-value="4" class="open-rateelements">★</button>
+         <button type="submit" title="Give 3 stars" data-value="3" class="open-rateelements" style="color:#f5be2e">★</button>
+         <button type="submit" title="Give 2 stars" data-value="2" class="open-rateelements" style="color:#f5be2e">★</button>
+         <button type="submit" title="Give 1 star" data-value="1" class="open-rateelements" style="color:#f5be2e">★</button>
+
+             {%elif rate == 4%}
+            <button type="submit" title="Give 5 stars" data-value="5" class="open-rateelements" >★</button>
+         <button type="submit" title="Give 4 stars" data-value="4" class="open-rateelements" style="color:#f5be2e">★</button>
+         <button type="submit" title="Give 3 stars" data-value="3" class="open-rateelements" style="color:#f5be2e">★</button>
+         <button type="submit" title="Give 2 stars" data-value="2" class="open-rateelements" style="color:#f5be2e">★</button>
+         <button type="submit" title="Give 1 star" data-value="1" class="open-rateelements" style="color:#f5be2e">★</button>
+
+             {%elif rate == 5%}
+            <button type="submit" title="Give 5 stars" data-value="5" class="open-rateelements" style="color:#f5be2e">★</button>
+         <button type="submit" title="Give 4 stars" data-value="4" class="open-rateelements" style="color:#f5be2e">★</button>
+         <button type="submit" title="Give 3 stars" data-value="3" class="open-rateelements" style="color:#f5be2e">★</button>
+         <button type="submit" title="Give 2 stars" data-value="2" class="open-rateelements" style="color:#f5be2e">★</button>
+         <button type="submit" title="Give 1 star" data-value="1" class="open-rateelements" style="color:#f5be2e">★</button>
+
+
+
+            {% endif %}
+         </div>
+    {% endif %}
+
+</form>
+</div>
+
+
+
+<div class="form-group">
+<span style="font-weight: bold; font-size: 30px;">Title</span>
+<input style="font-size: 20px;" class="form-control" type="text" placeholder="{{project_details.title}}" readonly>
+<!--=======-->
 <LABEL for="title" style="font-weight: bold; font-size: 30px;">Title</LABEL>
 <input id="title" style="font-size: 20px;" class="form-control" type="text" value="{{project_details.title}}" readonly>
+<!--&gt;>>>>>> 65059fd8a0acd078063f88503030787bb5ecc4eb-->
 </div>
 <div class="form-group ">
 <LABEL for="details" style="font-weight: bold; font-size: 30px;">Details</LABEL>
@@ -233,7 +359,7 @@
                         <h3 class="title-style-1 text-center">Edit your Comment <span class="title-under"></span>  </h3>
 
                         <div class="row">
-                                    <input type="text" name="commentId" id="commentId" />
+                                    <input type="text" name="commentId" id="commentId" hidden/>
 
                             <div class="form-group col-md-12">
                                 <textarea cols="30" rows="4" class="form-control" value="{{ thecomment.comment }}" name="comment"  id="commentedited"></textarea>
@@ -269,6 +395,33 @@
 
         });
     }
+
+
+<!--ratring-->
+var rateelements = document.getElementsByClassName('open-rateelements');
+for (var j=0; j<rateelements.length; j++) {
+    rateelements[j].addEventListener("click", function(){
+           var therate = $(this).data('value');
+           $("#therate").val( therate )
+
+    });
+}
+
+
+<!--$(".rating a").on('click', function(e){-->
+<!--	let value = $(this).data('value');-->
+<!--	let proID = $(this).data('proid');-->
+<!--&lt;!&ndash;	$(".rating #therate").val( value );&ndash;&gt;-->
+<!--   $.ajax({-->
+<!--      url: "{ url 'rate_detail' }",-->
+<!--      type: 'POST',-->
+<!--      data: {'rating': value,'project_id':proID},-->
+<!--      success: function (d){-->
+<!--       console.log(data)-->
+<!--      }-->
+<!--   })-->
+<!--});-->
+
 </script>
 
 

@@ -25,6 +25,7 @@ def index(request):
 @login_required
 def view(request, project_id):
         project = get_object_or_404(Project, id=project_id)
+        # tagedProjects = Project.objects.all().filter(tag_id=project.tags)
         images = Image.objects.filter(proj_id=project_id)
         ratequery = Rate.objects.filter(user_ID=request.user, proj_ID=project_id)
         comments =project.comments.filter(active=True)
@@ -122,6 +123,7 @@ def search(request):
         print('searchBox')
         project = Project.objects.filter(title__icontains=q)
         images = Image.objects.all()
+        # categories = Category.objects.all()
         # return show(request, project)
         return render(request, "home/srch.html", {'project': project, 'all_images': images})
 

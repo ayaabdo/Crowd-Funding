@@ -2,7 +2,7 @@ from django.utils import timezone
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse
-from django.shortcuts import render , redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth import views as auth_views, login
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
@@ -11,7 +11,7 @@ from django.views import generic
 from django.urls import reverse_lazy
 from django.core.files.storage import FileSystemStorage
 from django.core.mail import EmailMessage
-from .forms import LoginForm, SignupForm , EditProfileForm
+from .forms import LoginForm, SignupForm, EditProfileForm
 from django.contrib.auth.forms import PasswordResetForm
 from . import models
 from fundraising.models.project import Project
@@ -32,66 +32,41 @@ class LoginView(auth_views.LoginView):
     def get(self, request):
         form_class = self.form_class
         categories = Category.objects.all()
-        return render(request, self.template_name, {'form' : form_class,'categories': categories})
-
-def password_reset_request(request):
-    if request.method == "POST":
-        domain = request.headers['Host']
-        password_reset_form = PasswordResetForm(request.POST)
-        if password_reset_form.is_valid():
-            data = password_reset_form.cleaned_data['email']
-            associated_users = User.objects.filter(Q(email=data))
-           
-            if associated_users.exists():
-                for user in associated_users:
-                    subject = "Password Reset Requested"
-                    email_template_name = "admin/accounts/password/password_reset_email.txt"
-                    c = {
-                        "email": user.email,
-                        'domain': domain,
-                        'site_name': 'Interface',
-                        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                        "user": user,
-                        'token': default_token_generator.make_token(user),
-                        'protocol': 'http',
-                    }
-                    email = render_to_string(email_template_name, c)
-                    try:
-                        send_mail(subject, email, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
-                    except BadHeaderError:
-                        return HttpResponse('Invalid header found.')
-                    return redirect("accounts/password_reset/done/")
-    password_reset_form = PasswordResetForm()
-    return render(request=request, template_name="accounts/password_reset_form.html",
-                  context={"password_reset_form": password_reset_form})    
+        return render(request, self.template_name, {'form': form_class, 'categories': categories})
 
 
-def profile(request,u_id):
+def profile(request, u_id):
     user_data = models.MyUser.objects.get(id=u_id)
     categories = Category.objects.all()
-    return render(request, 'accounts/profile.html', {'user_data': user_data,'categories': categories})
+    return render(request, 'accounts/profile.html', {'user_data': user_data, 'categories': categories})
 
-def projects(request,u_id):
+
+def projects(request, u_id):
     user_projects = Project.objects.filter(user_ID=u_id)
     images = Image.objects.all()
     categories = Category.objects.all()
-    return render(request, 'accounts/projects.html', {'user_projects': user_projects, 'all_images': images,'categories': categories})
+    return render(request, 'accounts/projects.html',
+                  {'user_projects': user_projects, 'all_images': images, 'categories': categories})
 
 
-def donations(request,u_id):
+def donations(request, u_id):
     user_donations = Donation.objects.filter(user_ID=u_id)
     images = Image.objects.all()
     projects = Project.objects.filter(user_ID=u_id)
     categories = Category.objects.all()
-    return render(request, 'accounts/donations.html', {'user_donations': user_donations, 'all_images': images, 'projects':projects,'categories': categories})
-    
+    return render(request, 'accounts/donations.html',
+                  {'user_donations': user_donations, 'all_images': images, 'projects': projects,
+                   'categories': categories})
+
 
 User = get_user_model()
+
+
 class UserDelete(DeleteView):
     model = User
     success_url = reverse_lazy('home')
     template_name = 'accounts/user_confirm_delete.html'
-     
+
 
 def signup(request):
     if request.method == 'POST':
@@ -137,9 +112,8 @@ def activate(request, uidb64, token):
         return HttpResponse('Activation link is invalid!')
 
 
-
 # @login_required
-def edit_profile(request,u_id):
+def edit_profile(request, u_id):
     categories = Category.objects.all()
     user_data = models.MyUser.objects.get(id=u_id)
     categories = Category.objects.all()
@@ -147,32 +121,32 @@ def edit_profile(request,u_id):
     args['categories'] = categories
     if request.method == 'POST':
         form = EditProfileForm(request.POST, request.FILES, instance=request.user)
-        if form.is_valid() :
-            
+        if form.is_valid():
+
             if len(request.FILES) != 0:
                 prof_img = request.FILES['image_path']
                 fs = FileSystemStorage()
                 filename = fs.save(prof_img.name, prof_img)
                 uploaded_file_url = fs.url(filename)
             else:
-                uploaded_file_url = user_data.image_path 
+                uploaded_file_url = user_data.image_path
 
             user_form = form.save()
-            user_form.image_path=uploaded_file_url
+            user_form.image_path = uploaded_file_url
 
             user_form.save()
-            return redirect('profile',u_id)
+            return redirect('profile', u_id)
         else:
             args['form'] = form
-            return render(request, 'accounts/edit_profile.html',args )        
+            return render(request, 'accounts/edit_profile.html', args)
     else:
         form = EditProfileForm(instance=user_data)
         args['form'] = form
         args['user_data'] = user_data
-    return render(request, 'accounts/edit_profile.html',args )     
+    return render(request, 'accounts/edit_profile.html', args)
 
 
-def change_password(request,u_id):
+def change_password(request, u_id):
     categories = Category.objects.all()
     args = {}
     args['categories'] = categories
@@ -181,12 +155,12 @@ def change_password(request,u_id):
         args['form'] = form
         if form.is_valid():
             user = form.save()
-            update_session_auth_hash(request, user) 
+            update_session_auth_hash(request, user)
             messages.success(request, 'Your password was successfully updated!')
-            return redirect('profile',u_id)
+            return redirect('profile', u_id)
         else:
             messages.error(request, 'Please correct the error below.')
     else:
         form = PasswordChangeForm(request.user)
         args['form'] = form
-    return render(request, 'accounts/change_password.html', args)      
+    return render(request, 'accounts/change_password.html', args)

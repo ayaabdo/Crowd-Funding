@@ -12,6 +12,13 @@ class Project(models.Model):
     #images = models.ManyToManyField(Image)
     total_target = models.FloatField()
     total_donation = models.FloatField()
+
+################ rate ##############
+    number_of_users_rate = models.IntegerField( default=0)
+    total_rate = models.IntegerField( default=0)
+    overall_avg_rating = models.IntegerField( default=0)
+
+
     created_at = models.DateTimeField(null=True)
     start_date = models.DateTimeField(null=True)
     end_date = models.DateTimeField(null=True)

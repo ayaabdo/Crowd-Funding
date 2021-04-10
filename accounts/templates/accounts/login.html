@@ -46,9 +46,23 @@ login page
                             {{form.password}}
 						</div>
 
-						<div class="right-w3l">
-							<input type="submit" class="btn btn-primary pull-right" value="Log in">
+                        <a class="small" href="{% url 'password_reset_form' %}">Forgot Password?</a>
+                        <hr>
+                        <div class="right-w3l">
+							<input type="submit" class="btn btn-info btn-user btn-block" value="Log in">
 						</div>
+
+                        <hr>
+
+                        <div class="text-center">
+                            <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-danger btn-user">
+                                Sign-in with Google
+                            </a>
+                            <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-light btn-user">
+                                Sign-in with Facebook
+                            </a>
+                        </div>
+
 					</form>	
 				</div>
 

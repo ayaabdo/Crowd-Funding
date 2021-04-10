@@ -4,11 +4,13 @@
 {{project_details.title}}
 {% endblock %}
 {% block styles %}
+<link rel="stylesheet" href="{% static 'css/rating.css' %}">
 <link rel="stylesheet" href="{% static 'css/project-actions.css' %}" xmlns="http://www.w3.org/1999/html">
 {% endblock %}
 {% block header %}
 {% if project_details.user_ID == request.user %}
   <a style="font-weight: bold; font-size: 20px;" href="{% url 'edit_project' project_details.id %}" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2">Edit</a>
+
 {% endif %}
  <div id="carouselExampleIndicators" class="carousel slide col-md-5 col-md-offset-3" data-ride="carousel" margin="auto">
   <ol class="carousel-indicators">
@@ -44,10 +46,79 @@
 </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 {% endblock %}
 {% block content %}
+<div class="container text-center" >
+Project OverAll Rating:
+<fieldset class="starability-result mx-auto" data-rating="{{ project_details.overall_avg_rating }}" style="text-align: center;
+    margin: auto;">
+</fieldset>
+</div>
 <div class="container text-left">
 <div class="form-group">
+
+ <span style="font-weight: bold; font-size: 30px;">{{request.user}} rate :</span>
+<form class="form-rate" action="{% url 'rate_detail' project_details.id %}" method="POST" enctype="multipart/form-data" >
+{% csrf_token %}
+       <input type="text" name="therate" id="therate" hidden />
+
+    {% if rate == -1 %}
+    <div class="from-group rating rating2">
+        <button type="submit" title="Give 5 stars" data-value="5" class="open-rateelements" >★</button>
+         <button type="submit" title="Give 4 stars" data-value="4" class="open-rateelements">★</button>
+         <button type="submit" title="Give 3 stars" data-value="3" class="open-rateelements">★</button>
+         <button type="submit" title="Give 2 stars" data-value="2" class="open-rateelements">★</button>
+         <button type="submit" title="Give 1 star" data-value="1" class="open-rateelements">★</button>
+
+<!--        <a href="#1" title="Give 1 star" data-value="1" class="open-rateelements">★</a>-->
+    </div>
+    {% else %}
+        <div class="from-group rating rating2">
+            {% if rate == 1 %}
+         <button type="submit" title="Give 5 stars" data-value="5" class="open-rateelements" >★</button>
+         <button type="submit" title="Give 4 stars" data-value="4" class="open-rateelements">★</button>
+         <button type="submit" title="Give 3 stars" data-value="3" class="open-rateelements">★</button>
+         <button type="submit" title="Give 2 stars" data-value="2" class="open-rateelements">★</button>
+         <button type="submit" title="Give 1 star" data-value="1" class="open-rateelements" style="color:#f5be2e">★</button>
+
+
+           {%elif rate == 2%}
+            <button type="submit" title="Give 5 stars" data-value="5" class="open-rateelements" >★</button>
+         <button type="submit" title="Give 4 stars" data-value="4" class="open-rateelements">★</button>
+         <button type="submit" title="Give 3 stars" data-value="3" class="open-rateelements">★</button>
+         <button type="submit" title="Give 2 stars" data-value="2" class="open-rateelements" style="color:#f5be2e">★</button>
+         <button type="submit" title="Give 1 star" data-value="1" class="open-rateelements" style="color:#f5be2e">★</button>
+
+             {%elif rate == 3%}
+            <button type="submit" title="Give 5 stars" data-value="5" class="open-rateelements" >★</button>
+         <button type="submit" title="Give 4 stars" data-value="4" class="open-rateelements">★</button>
+         <button type="submit" title="Give 3 stars" data-value="3" class="open-rateelements" style="color:#f5be2e">★</button>
+         <button type="submit" title="Give 2 stars" data-value="2" class="open-rateelements" style="color:#f5be2e">★</button>
+         <button type="submit" title="Give 1 star" data-value="1" class="open-rateelements" style="color:#f5be2e">★</button>
+
+             {%elif rate == 4%}
+            <button type="submit" title="Give 5 stars" data-value="5" class="open-rateelements" >★</button>
+         <button type="submit" title="Give 4 stars" data-value="4" class="open-rateelements" style="color:#f5be2e">★</button>
+         <button type="submit" title="Give 3 stars" data-value="3" class="open-rateelements" style="color:#f5be2e">★</button>
+         <button type="submit" title="Give 2 stars" data-value="2" class="open-rateelements" style="color:#f5be2e">★</button>
+         <button type="submit" title="Give 1 star" data-value="1" class="open-rateelements" style="color:#f5be2e">★</button>
+
+             {%elif rate == 5%}
+            <button type="submit" title="Give 5 stars" data-value="5" class="open-rateelements" style="color:#f5be2e">★</button>
+         <button type="submit" title="Give 4 stars" data-value="4" class="open-rateelements" style="color:#f5be2e">★</button>
+         <button type="submit" title="Give 3 stars" data-value="3" class="open-rateelements" style="color:#f5be2e">★</button>
+         <button type="submit" title="Give 2 stars" data-value="2" class="open-rateelements" style="color:#f5be2e">★</button>
+         <button type="submit" title="Give 1 star" data-value="1" class="open-rateelements" style="color:#f5be2e">★</button>
+
+            {% endif %}
+         </div>
+    {% endif %}
+</form>
+</div>
+
+<div class="form-group">
+
 <LABEL for="title" style="font-weight: bold; font-size: 30px;">Title</LABEL>
 <input id="title" style="font-size: 20px;" class="form-control" type="text" value="{{project_details.title}}" readonly>
+
 </div>
 <div class="form-group ">
 <LABEL for="details" style="font-weight: bold; font-size: 30px;">Details</LABEL>
@@ -93,35 +164,74 @@
 <span class=" text-muted font-weight-normal">
    {{ comment.comment }}
 </span>
+<div class="modal fade" id="reportCommentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
+
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="reportcommentModalLabel">Comment</h4>
+          </div>
+          <div class="modal-body">
+               <form class="form-comment" action="{% url 'report_comment' project_details.id  comment.id %}" method="POST">
+                        {% csrf_token %}
+                        <h3 class="title-style-1 text-center">What is your complain<span class="title-under"></span>  </h3>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <textarea cols="30" rows="4" class="form-control" name="report-comment" placeholder="Type your complain"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <button type="submit" class="btn btn-primary pull-right" >Submit</button>
+                            </div>
+
+                        </div>
+                </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
     {% if request.user == comment.user_ID %}
-<a href="" data-commentid="{{ comment.id }}" data-comment="{{ comment.comment }}" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2 open-AddBookDialog" data-toggle="modal" data-target="#commenteditModal">Edit</a>
+    <a href="" data-commentid="{{ comment.id }}" data-comment="{{ comment.comment }}" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2 open-AddBookDialog" data-toggle="modal" data-target="#commenteditModal">Edit</a>
     {% endif %}
-</p>
-<hr>
+    <button id="Btn" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2" data-toggle="modal" data-target="#reportCommentModal">Report</button>
+    <hr>
 </div>
 {% endfor %}
 </div>
-<div class="form-group">
-    <form action="{% url 'report_project' project_details.id %}" method="POST">
-       {% csrf_token %}
-       <div id="myModal" class="modal">
-          <div class="modal-content ">
-            <span class="close">&times;</span>
-             <label for="report-content" class="col-md-offset-3" style="font-weight: bold; font-size: 20px;">What is your complain ?</label><br>
-            <textarea id="report-content" name="report-content" class="col-md-5 col-md-offset-3">
-            </textarea><br><br><br>
-            <button class="btn btn-primary col-md-offset-5" style="font-weight: bold; font-size: 20px; color: red;">Report</button>
+<div class="modal fade" id="reportProjectModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
+
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="reportprojectModalLabel">Comment</h4>
+          </div>
+          <div class="modal-body">
+               <form class="form-comment" action="{% url 'report_project' project_details.id %}" method="POST">
+                        {% csrf_token %}
+                        <h3 class="title-style-1 text-center">What is your complain<span class="title-under"></span>  </h3>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <textarea cols="30" rows="4" class="form-control" name="report-content" placeholder="Type your complain"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <button type="submit" class="btn btn-primary pull-right" >Submit</button>
+                            </div>
+                        </div>
+                </form>
           </div>
         </div>
+      </div>
 
-      </form>
-        <!--<a href="/project/{{ project_details.id }}/report">Report</a>-->
-         <a style="font-weight: bold; font-size: 20px;" href="" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2" data-toggle="modal" data-target="#commentModal">Comment</a>
-  <a style="font-weight: bold; font-size: 20px;" href="" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2" data-toggle="modal" data-target="#donateModal">DONATE NOW</a>
-  <button id="myBtn" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2" style="font-weight: bold; font-size: 20px;">Report</button>
-
-
-</div>
+    </div>
+       <a style="font-weight: bold; font-size: 20px;" href="" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2" data-toggle="modal" data-target="#commentModal">Comment</a>
+      <a style="font-weight: bold; font-size: 20px;" href="" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2" data-toggle="modal" data-target="#donateModal">DONATE NOW</a>
+      <button id="myBtn" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2" style="font-weight: bold; font-size: 20px;" data-toggle="modal" data-target="#reportProjectModal">Report</button>
 </div>
 {% endblock %}
 {% block donate %}
@@ -145,44 +255,15 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-md-6">
-                                <input type="text" class="form-control" name="firstName" placeholder="First name*">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <input type="text" class="form-control" name="lastName" placeholder="Last name*">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <input type="text" class="form-control" name="email" placeholder="Email*">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <input type="text" class="form-control" name="phone" placeholder="Phone">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <input type="text" class="form-control" name="address" placeholder="Address">
-                            </div>
-                        </div>
-                        <div class="row">
-
-                            <div class="form-group col-md-12">
-                                <textarea cols="30" rows="4" class="form-control" name="note" placeholder="Additional note"></textarea>
-                            </div>
-                        </div>
-                        <div class="row">
                             <div class="form-group col-md-12">
                                 <button type="submit" class="btn btn-primary pull-right" name="donateNow" >DONATE NOW</button>
                             </div>
-
                         </div>
                 </form>
-
           </div>
         </div>
       </div>
-    </div> <!-- /.modal -->
+    </div>
 {% endblock %}
 
 {% block comment %}
@@ -233,7 +314,7 @@
                         <h3 class="title-style-1 text-center">Edit your Comment <span class="title-under"></span>  </h3>
 
                         <div class="row">
-                                    <input type="text" name="commentId" id="commentId" />
+                                    <input type="text" name="commentId" id="commentId" hidden/>
 
                             <div class="form-group col-md-12">
                                 <textarea cols="30" rows="4" class="form-control" value="{{ thecomment.comment }}" name="comment"  id="commentedited"></textarea>
@@ -256,20 +337,7 @@
 {% endblock %}
 {% block scripts %}
 <script src="{% static 'js/project-actions.js' %}"></script>
-
-<script>
-    var elements = document.getElementsByClassName('open-AddBookDialog');
-    for (var i=0; i<elements.length; i++) {
-        elements[i].addEventListener("click", function(){
-               var commentId = $(this).data('commentid');
-             $(".modal-body #commentId").val( commentId );
-
-               var thecomment = $(this).data('comment');
-             $(".modal-body #commentedited").val( thecomment );
-
-        });
-    }
-</script>
+<script src="{% static 'js/rate-and-comment.js' %}"></script>
 
 
 {% endblock %}

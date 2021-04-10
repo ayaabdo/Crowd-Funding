@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, SetPasswordForm
 from django.contrib.auth import get_user_model, password_validation
 from django.utils.translation import ugettext_lazy as _
 
@@ -56,16 +56,16 @@ class SignupForm(UserCreationForm):
             'class': 'form-control form-control-user',
             'id': 'password1',
             'placeholder': 'Repeat password'}), )
-    # image_path = forms.ImageField(required=True, label=_("change photo"),
-    #                               widget=forms.FileInput({
-    #                                   'class': 'custom-file-input text-info',
-    #                                   'placeholder': 'file path'}))
+    image_path = forms.ImageField(required=True, label=_("change photo"),
+                                  widget=forms.FileInput({
+                                      'class': 'custom-file-input text-info',
+                                      'placeholder': 'file path'}))
 
 
     class Meta:
         model = MyUser
         fields = ('username', 'first_name', 'last_name', 'mobile_number',
-                  'email', 'password1', 'password2')
+                  'email', 'password1', 'password2', 'image_path')
 
 
 
@@ -122,5 +122,40 @@ class EditProfileForm(ModelForm):
     class Meta:
         model = MyUser
         fields = ('username', 'first_name', 'last_name', 'mobile_number',
-                   'image_path', 'birth_date', 'face_profile', 'country')      
+                   'image_path', 'birth_date', 'face_profile', 'country')
+
+
+
+
+class PasswordResetForm(PasswordResetForm):
+    """PasswordResetForm form which uses boostrap CSS."""
+    email = forms.EmailField(label=_("Email"), max_length=254,
+                             widget=forms.TextInput({
+                                 'class': 'form-control form-control-user',
+                                 'placeholder': 'E-mail'}))
+
+
+class SetPasswordForm(SetPasswordForm):
+    """
+    A form that lets a user change set their password without entering the old
+    password
+    """
+    error_messages = {
+        'password_mismatch': _("The two password fields didn't match."),
+        'password_notvalid': _("Password must of 8 Character which contain"
+                               + "alphanumeric with at least 1 special character and 1 uppercase."),
+    }
+    new_password1 = forms.CharField(
+        label=_("New password"),
+        widget=forms.PasswordInput({'class': 'form-control form-control-user',
+                                    'placeholder': 'New password'}),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+    new_password2 = forms.CharField(
+        label=_("New password confirmation"),
+        strip=False,
+        widget=forms.PasswordInput({'class': 'form-control form-control-user',
+                                    'placeholder': 'New password confirmation'}),
+    )
 

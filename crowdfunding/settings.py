@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = 'accounts.MyUser'
+
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'accounts.backends.EmailBackend',

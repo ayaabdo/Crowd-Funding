@@ -124,7 +124,6 @@
 
                     <li><a href="{% url 'project_list' %}">PROJECTS</a></li>
 
-                    <li><a href="layout/contact.html">CONTACT</a></li>
                     {% if user.is_authenticated %}
                     <li class="has-child"><a href="#" style="color: greenyellow;font-weight: bold;">{{user.username}}</a>
                         <ul class="submenu">
@@ -316,7 +315,7 @@
     <!-- owl carouseljavascript file -->
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
 
-    <!-- Template main javascript -->{
+    <!-- Template main javascript -->
     <script src="{% static 'js/main.js' %}"></script>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

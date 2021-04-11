@@ -23,8 +23,8 @@ from django.views.generic.edit import DeleteView
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
-
 from .tokens import account_activation_token
+from django.db.models import Sum
 
 
 class LoginView(auth_views.LoginView):
@@ -52,7 +52,8 @@ def projects(request, u_id):
 
 
 def donations(request, u_id):
-    user_donations = Donation.objects.filter(user_ID=u_id)
+    # user_donations = Donation.objects.filter(user_ID=u_id)
+    user_donations= Donation.objects.filter(user_ID=u_id).values('project_ID').annotate(total=Sum('amount_of_donation'))
     images = Image.objects.all()
     projects = Project.objects.filter(user_ID=u_id)
     categories = Category.objects.all()
@@ -127,7 +128,7 @@ def edit_profile(request, u_id):
                 prof_img = request.FILES['image_path']
                 fs = FileSystemStorage()
                 filename = fs.save(prof_img.name, prof_img)
-                uploaded_file_url = fs.url(filename)
+                uploaded_file_url = filename
             else:
                 uploaded_file_url = user_data.image_path
 

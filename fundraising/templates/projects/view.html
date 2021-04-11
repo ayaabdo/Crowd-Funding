@@ -10,13 +10,13 @@
 {% endblock %}
 {% block header %}
 {% if project_details.user_ID == request.user %}
-  <a style="font-weight: bold; font-size: 20px;" href="{% url 'edit_project' project_details.id %}" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2">Edit</a>
+  <a href="{% url 'edit_project' project_details.id %}" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated animated slow" style="position: absolute; margin-top: 10px; left:100px; font-weight: bold; font-size: 20px;">Edit</a>
 
 
 
 {% with project_details.total_target|mul:"0.25" as quartertarger %}
   {% if  project_details.total_donation < quartertarger %}
-        <a style="font-weight: bold; font-size: 20px;"  href="{% url 'project_delete' project_details.id %}" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2">Cancel</a>
+        <a href="{% url 'project_delete' project_details.id %}" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2" style="font-size: 20px;margin-right: 147px; margin-top: 10px; font-weight: bold; font-size: 20px;">Cancel</a>
     {% endif %}
 {% endwith %}
 

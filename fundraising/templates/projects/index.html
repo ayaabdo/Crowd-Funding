@@ -5,9 +5,9 @@ Projects
 {% endblock %}
 {% block about %}
 {% if user.is_authenticated %}
-<a class="col-md-2 col-md-offset-10 btn btn-primary" style="margin: 20px 1300px;" href="/project/add">Create new project</a>
+<a class="col-md-2 col-md-offset-10 btn btn-primary" href="/project/add">Create new project</a>
 {% else %}
-<a class="col-md-2 col-md-offset-10 btn btn-primary" style="margin: 20px 1300px;" href="{% url 'login' %}">Create new project</a>
+<a class="col-md-2 col-md-offset-10 btn btn-primary" href="{% url 'login' %}">Create new project</a>
 {% endif %}
 <br>
 {% load variables %}

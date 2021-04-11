@@ -6,27 +6,28 @@ user Donation page
 
 {% block content %}
 <br>
-  <div class='jumbotron'>
-  <h2> user Donations
-</div>
+  
+  <h2 class="title-style-1">User Donations <span class="title-under"></span></h2>
+
 <div class='container'>
-<table class="table table-striped">
+
+{% comment %} {{user_donations.0}} {% endcomment %}
+ <table class="table table-striped">
   <thead class='thead-dark'>
     <tr>
       <th scope="col">Donation</th>
       <th scope="col">Project Title</th>
       <th scope="col">Project Images</th>
       <th scope="col">View Project</th>
-      {% comment %} <th> {{user_donations.0.amount_of_donation}}</th> {% endcomment %}
     </tr>
   </thead>
   <tbody>
    {% for donate in user_donations %}
     <tr>
-      <th>{{ donate.amount_of_donation }}</th>
+      <th>{{ donate.total }}</th>
       <td>
       {% for project in projects %}
-        {% if project.id == donate.project_ID.id  %}
+        {% if project.id == donate.project_ID  %}
           {{ project.title }}
         {% endif %}
       {% endfor %}
@@ -34,17 +35,18 @@ user Donation page
 
       <td>
       {% for img in all_images %}
-        {% if img.proj_id.id == donate.project_ID.id  %}
+        {% if img.proj_id.id == donate.project_ID  %}
           <img style="width: 34px;" src="{{ img.image_path }}">
         {% endif %}
       {% endfor %}
       </td>
-      <td><a href="{% url 'view_project' donate.project_ID.id %}" class='btn btn-info btn-lg'> link </a></td>
+      <td><a href="{% url 'view_project' donate.project_ID %}" class='btn btn-info btn-lg'> link </a></td>
     </tr>
   {% endfor %}  
 
   </tbody>
-</table>
+</table> 
+</div>
 {% endblock %}
 
 

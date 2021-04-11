@@ -12,16 +12,14 @@
 {% if project_details.user_ID == request.user %}
   <a style="font-weight: bold; font-size: 20px;" href="{% url 'edit_project' project_details.id %}" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2">Edit</a>
 
-{{ quarterTar |floatformat:-1}}
-{{ 1.00|floatformat:-2 }}
 
-{% load table_tags %}
 
-{{ project_details|value_from_model:col.id }}
-
-{% if project_details.total_donation  %}
+{% with project_details.total_target|mul:"0.25" as quartertarger %}
+  {% if  project_details.total_donation < quartertarger %}
         <a style="font-weight: bold; font-size: 20px;"  href="{% url 'project_delete' project_details.id %}" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2">Cancel</a>
     {% endif %}
+{% endwith %}
+
 
 {% endif %}
 

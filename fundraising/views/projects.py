@@ -30,13 +30,11 @@ def view(request, project_id):
         ratequery = Rate.objects.filter(user_ID=request.user, proj_ID=project_id)
         comments =project.comments.filter(active=True)
 
-        theproject = Project.objects.get(id=project_id)
-        quarterTarget = float(12000.0)
 
         if(ratequery.count() > 0):
             rate = Rate.objects.get(user_ID=request.user, proj_ID=project_id)
             return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
-                                                'comments':comments,'rate':rate.individual_rate,'quarterTar':quarterTarget})
+                                                'comments':comments,'rate':rate.individual_rate})
         else:
             return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
                                                           'comments': comments,'rate':-1})

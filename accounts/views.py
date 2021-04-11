@@ -112,7 +112,6 @@ def activate(request, uidb64, token, backend='django.contrib.auth.backends.Model
     else:
         return HttpResponse('Activation link is invalid!')
 
-
 # @login_required
 def edit_profile(request, u_id):
     categories = Category.objects.all()

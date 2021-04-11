@@ -94,7 +94,7 @@ def create(request):
                 save_tags(tags, project_obj)
 
             project_obj.save()
-            return redirect('project_list')
+            return redirect('view_project', project_obj.id)
 
 @login_required
 def update(request, project_id):
@@ -154,15 +154,9 @@ def search(request):
         # return show(request, project)
         return render(request, "home/srch.html", {'project': project, 'categories': categories,'all_images': images})
 
-# def show(request, id):
-#     # project = Project.objects.get(id=id)
-#     project = get_object_or_404(Project, id=id)
-#     context = {'project':project,
-#                }
-#     return render(request, "home/srch.html", context)
-
-
+@login_required()
 def delete(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     project.delete()
-    return redirect('project_list')
+    return redirect('view_project', project_id)
+    #return redirect('project_list')

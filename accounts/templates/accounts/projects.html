@@ -6,12 +6,13 @@ user Projects
 
 {% block content %}
 {% load variables %}
-
-    <div class="section-home our-causes animate-onscroll fadeIn">
+ <div class="section-home our-causes animate-onscroll fadeIn">
 
         <div class="container">
 
             <h2 class="title-style-1">User Projects <span class="title-under"></span></h2>
+{% if user_project %}
+
               {% for project in user_projects %}
                 {% with True as found %}
                 <div class="container col-md-3">
@@ -43,11 +44,12 @@ user Projects
                 <a href="{% url 'view_project' project.id %}" class="btn btn-primary col-md-4 col-md-offset-4"> Read more </a>
                 </div>
                {% endfor %}
+{% else %}
+        <div style="text-align: center;margin-bottom: 160px; margin-top: 164px; border: 20px; font-size: 35px;">You don't have any projects yet</div>
+{% endif %}
+       </div>
 
-        </div>
-        
-    </div> <!-- /.our-causes -->
-
+ </div> <!-- /.our-causes -->
 {% endblock %}
 
 

@@ -6,6 +6,11 @@ login page
 
 {% block content %}
 
+ <div class="section-home our-causes animate-onscroll fadeIn">
+
+        <div class="container">
+
+            <h2 class="title-style-1">Delete Confirmation<span class="title-under"></span></h2>
 <div style="margin: auto;text-align: center;border: solid;width: 444px;padding: 49px;margin-top: 36px; margin-bottom: 42px; font-size: 21px; color: black;">
   {% if user.is_authenticated %}
     <form method="post">
@@ -17,5 +22,8 @@ login page
     </form>
   {% endif %}  
 </div>
+        </div>
+ </div>
+
   
 {% endblock %}

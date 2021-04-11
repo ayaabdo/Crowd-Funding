@@ -8,6 +8,7 @@ from .models.report_comment import ReportAComment
 from .models.user_donation import Donation
 from .models.categories import Category
 from .models.tags import Tag
+from .models.reply import Reply
 from accounts.models import MyUser
 from django.contrib.auth.admin import UserAdmin
 
@@ -22,5 +23,7 @@ admin.site.register(ReportAProject)
 admin.site.register(ReportAComment)
 admin.site.register(Donation)
 admin.site.register(Category)
+admin.site.register(Reply)
+
 admin.site.register(Tag)
 admin.site.register(MyUser, UserAdmin)

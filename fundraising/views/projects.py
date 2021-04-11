@@ -40,6 +40,7 @@ def view(request, project_id):
 
         comments =project.comments.filter(active=True)
 
+
         return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
                                                       'comments':comments})
 @login_required

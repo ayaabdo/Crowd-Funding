@@ -5,6 +5,8 @@ from fundraising.models.report_project import ReportAProject
 from fundraising.models.report_comment import ReportAComment
 from fundraising.models.images import Image
 from fundraising.models.comments import Comment
+from fundraising.models.reply import Reply
+
 from fundraising.models.rate import Rate
 from django.http import HttpResponse, JsonResponse
 from fundraising.forms.CommentForm import CommentForm
@@ -100,10 +102,12 @@ def editComment(request):
 
 
 @login_required
-def reply(request,project_id, comment_id):
-    project = Project.objects.get(id=project_id)
+def reply(request,project_id,comment_id):
     comment = Comment.objects.get(id=comment_id)
-
+    project = Project.objects.get(id=project_id)
+    reply = Reply.objects.create(user_ID=request.user, reply=request.POST.get('reply'),
+                                     comment=comment)
+    reply.save()
     return redirect('project_list')
 
 

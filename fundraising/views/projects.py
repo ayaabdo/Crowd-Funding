@@ -158,5 +158,5 @@ def search(request):
 def delete(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     project.delete()
-    return redirect('view_project', project_id)
-    #return redirect('project_list')
+    #return redirect('view_project', project_id)
+    return redirect('project_list')

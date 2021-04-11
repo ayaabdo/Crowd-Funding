@@ -112,3 +112,8 @@ def reply(request,project_id,comment_id):
 
 
 
+def deletecomment(request,project_id, comment_id):
+
+    comment = get_object_or_404(Comment, id=comment_id,project_ID=project_id)
+    comment.delete()
+    return redirect('project_list')

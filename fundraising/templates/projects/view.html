@@ -1,5 +1,6 @@
 {% extends 'layout/base.html' %}
 {% load static %}
+{% load mathfilters %}
 {% block title %}
 {{project_details.title}}
 {% endblock %}
@@ -11,7 +12,20 @@
 {% if project_details.user_ID == request.user %}
   <a style="font-weight: bold; font-size: 20px;" href="{% url 'edit_project' project_details.id %}" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2">Edit</a>
 
+{{ quarterTar |floatformat:-1}}
+{{ 1.00|floatformat:-2 }}
+
+{% load table_tags %}
+
+{{ project_details|value_from_model:col.id }}
+
+{% if project_details.total_donation  %}
+        <a style="font-weight: bold; font-size: 20px;"  href="{% url 'project_delete' project_details.id %}" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2">Cancel</a>
+    {% endif %}
+
 {% endif %}
+
+
  <div id="carouselExampleIndicators" class="carousel slide col-md-5 col-md-offset-3" data-ride="carousel" margin="auto">
   <ol class="carousel-indicators">
       {% for img in project_images %}
@@ -167,7 +181,8 @@ Project OverAll Rating:
     {% for reply in comment.replies.all %}
     here
     <hr>
-        {{reply.reply}}
+        {{reply.user_ID}}
+        :{{reply.reply}}
     <hr>
     {%endfor%}
 <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#replyBox{{comment.id}}" aria-expanded="false" aria-controls="replyBox{{comment.id}}">
@@ -221,6 +236,7 @@ Project OverAll Rating:
     </div>
     {% if request.user == comment.user_ID %}
     <a href="" data-commentid="{{ comment.id }}" data-comment="{{ comment.comment }}" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2 open-AddBookDialog" data-toggle="modal" data-target="#commenteditModal">Edit</a>
+
     {% endif %}
     <button id="Btn" class="btn btn-lg btn-secondary hidden-xs bounceInUp animated slow col-md-offset-2" data-toggle="modal" data-target="#reportCommentModal">Report</button>
     <hr>

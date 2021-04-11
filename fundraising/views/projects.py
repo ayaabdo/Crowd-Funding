@@ -30,10 +30,13 @@ def view(request, project_id):
         ratequery = Rate.objects.filter(user_ID=request.user, proj_ID=project_id)
         comments =project.comments.filter(active=True)
 
+        theproject = Project.objects.get(id=project_id)
+        quarterTarget = float(12000.0)
+
         if(ratequery.count() > 0):
             rate = Rate.objects.get(user_ID=request.user, proj_ID=project_id)
             return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
-                                                'comments':comments,'rate':rate.individual_rate})
+                                                'comments':comments,'rate':rate.individual_rate,'quarterTar':quarterTarget})
         else:
             return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
                                                           'comments': comments,'rate':-1})
@@ -136,3 +139,7 @@ def search(request):
 #     return render(request, "home/srch.html", context)
 
 
+def delete(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    project.delete()
+    return redirect('project_list')

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'fundraising',
     'accounts',
     'social_django',
+    'mathfilters',
 ]
 
 AUTH_USER_MODEL = 'accounts.MyUser'
@@ -57,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
+
 ]
 
 ROOT_URLCONF = 'crowdfunding.urls'

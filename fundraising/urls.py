@@ -12,6 +12,7 @@ urlpatterns = [
     path('project/add', projects.create, name='add_project'),
     url(r'^project/(?P<project_id>\d+)/$', projects.view, name='view_project'),
     url(r'^project/(?P<project_id>\d+)/update$', projects.update, name='edit_project'),
+    url(r'^project/(?P<project_id>\d+)/delete$', projects.delete, name='project_delete'),
     url(r'^project/(?P<project_id>\d+)/report$', useractions.reportAproject, name='report_project'),
     # url(r'^project/(?P<project_id>\d+)/comment$', useractions.comment, name='comment_project'),
     url(r'^project/(?P<project_id>\d+)/(?P<comment_id>\d+)/report$', useractions.reportAcomment, name='report_comment'),

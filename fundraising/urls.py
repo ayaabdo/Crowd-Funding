@@ -21,5 +21,7 @@ urlpatterns = [
     path('project/comment/update', useractions.editComment, name='comment_edit'),
     path(r'^project/(?P<project_id>\d+)/rate', useractions.rate, name='rate_detail'),
 
+    url(r'^project/(?P<project_id>\d+)/(?P<comment_id>\d+)/reply', useractions.reply, name='reply_comment'),
+
     # path('<slug:project_id>/', comments.comments_detail, name='comments_detail'),
 ]

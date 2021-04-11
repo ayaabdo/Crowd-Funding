@@ -99,4 +99,12 @@ def editComment(request):
         return redirect('project_list')
 
 
+@login_required
+def reply(request,project_id, comment_id):
+    project = Project.objects.get(id=project_id)
+    comment = Comment.objects.get(id=comment_id)
+
+    return redirect('project_list')
+
+
 

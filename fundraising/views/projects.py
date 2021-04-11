@@ -29,21 +29,46 @@ def view(request, project_id):
         images = Image.objects.filter(proj_id=project_id)
         ratequery = Rate.objects.filter(user_ID=request.user, proj_ID=project_id)
         comments =project.comments.filter(active=True)
+        allimages = Image.objects.all()
+        categories = Category.objects.all()
+        # tagProjects = Tag.objects.all().values('project', 'tag_name').order_by('-project').distinct()
+        # print(tagProjects)
+        # print(project)
+
+        # ProjectsIDS =Tag.objects.order_by('project').values('project').distinct()
+
+        # tagProjects = Tag.objects.all().values('project', 'tag_name').extra(order_by=['-project']).distinct()
+        # print(tagProjects)
+        # tagedProjects = []
+        # tagdic = {}
+        # for proj in tagProjects:
+        #     if proj['project'] not in tagedProjects :
+        #          # print( proj['project'] )
+        #          tagedProjects.append(proj['project'])
+        #
+        # print(tagedProjects)
+        # dict={}
+        tagProjects = Tag.objects.all().values('project','tag_name').extra(order_by=['-tag_name']).distinct()
+
 
 
         if(ratequery.count() > 0):
             rate = Rate.objects.get(user_ID=request.user, proj_ID=project_id)
             return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
-                                                'comments':comments,'rate':rate.individual_rate})
+                                                'comments':comments,'rate':rate.individual_rate,'tagProjects':tagProjects
+                                                        ,'all_images':allimages,'categories': categories  })
         else:
             return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
-                                                          'comments': comments,'rate':-1})
+                                                          'comments': comments,'rate':-1,'tagProjects':tagProjects
+                                                          ,'all_images':allimages ,'categories': categories })
 
         comments =project.comments.filter(active=True)
 
 
-        return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
-                                                      'comments':comments})
+
+
+        # return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
+        #                                               'comments':comments})
 @login_required
 def create(request):
     if request.method == "GET":

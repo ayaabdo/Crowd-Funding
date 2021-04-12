@@ -65,7 +65,7 @@ Crowd Funding
         <div class="item ">
             <img src="{% static 'images/slider/home-slider-4.jpeg' %}" alt="" style="height: 400px;">
             <div class="container">
-                <div class="carousel-caption">
+                <div class="carousel-caption" style="width=100% !important">
                     <h2 class="carousel-title bounceInDown animated slow" >{{p.title }}</h2>
                     <h4 class="carousel-subtitle bounceInUp animated slow"> Total Donation : {{p.total_donation}}</h4>
                     {% if user.is_authenticated %}

@@ -32,19 +32,27 @@ def view(request, project_id):
         allimages = Image.objects.all()
         categories = Category.objects.all()
 
-        tagProjects = Tag.objects.all().values('project','tag_name').extra(order_by=['-tag_name']).distinct()
-
-
+        # tagProjects = Tag.objects.all().values('project','tag_name').extra(order_by=['-tag_name']).distinct()
+        all_projects = Project.objects.all()
+        tagedProjects = Tag.objects.all().values('project', 'tag_name').extra(order_by=['-project']).distinct()
+        # print(tagProjects)
+        tagProjects = []
+        unique_id = []
+        for dic in tagedProjects:
+            if dic['project'] not in unique_id:
+                # print( proj['project'] )
+                unique_id.append(dic['project'])
+                tagProjects.append(dic)
 
         if(ratequery.count() > 0):
             rate = Rate.objects.get(user_ID=request.user, proj_ID=project_id)
             return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
                                                 'comments':comments,'rate':rate.individual_rate,'tagProjects':tagProjects
-                                                        ,'all_images':allimages,'categories': categories  })
+                                                        ,'all_images':allimages,'categories': categories, "all_projects": all_projects})
         else:
             return render(request, 'projects/view.html', {'project_details': project, 'project_images': images,
                                                           'comments': comments,'rate':-1,'tagProjects':tagProjects
-                                                          ,'all_images':allimages ,'categories': categories })
+                                                          ,'all_images':allimages ,'categories': categories, "all_projects": all_projects })
 
         comments =project.comments.filter(active=True)
 
@@ -124,8 +132,6 @@ def save_tags(tags, project):
     for elem in tags:
         selected_tag = Tag.objects.get(id=elem)
         project.tags.add(selected_tag)
-
-        #########################################################################################
 
 
 def search(request):

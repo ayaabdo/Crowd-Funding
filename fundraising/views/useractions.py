@@ -81,16 +81,16 @@ def reportAcomment(request, project_id, comment_id):
     report = ReportAComment.objects.create(user_ID=request.user, comment_ID=comment,
                                            description=request.POST.get('report-comment'))
     report.save()
-    return redirect('view_project', project_id)
+    return redirect(request.META['HTTP_REFERER'])
 
 @login_required
 def comment(request,project_id):
     template_name = 'projects/view.html'
     project = Project.objects.get(id=project_id)
     comment= Comment.objects.create(user_ID=request.user, project_ID=project,
-                                       comment=request.POST.get('comment'))
+                                       comment=request.POST.get('comment'), active=True)
     comment.save()
-    return redirect('view_project', project_id)
+    return redirect(request.META['HTTP_REFERER'])
 
 @login_required
 def editComment(request):
@@ -98,7 +98,7 @@ def editComment(request):
         the_comment = Comment.objects.get(id=the_comment_id)
         the_comment.comment = request.POST.get('comment')
         the_comment.save()
-        return redirect('project_list')
+        return redirect(request.META['HTTP_REFERER'])
 
 
 @login_required
@@ -108,7 +108,7 @@ def reply(request,project_id,comment_id):
     reply = Reply.objects.create(user_ID=request.user, reply=request.POST.get('reply'),
                                      comment=comment)
     reply.save()
-    return redirect('project_list')
+    return redirect(request.META['HTTP_REFERER'])
 
 
 
@@ -116,4 +116,4 @@ def deletecomment(request,project_id, comment_id):
 
     comment = get_object_or_404(Comment, id=comment_id,project_ID=project_id)
     comment.delete()
-    return redirect('project_list')
+    return redirect(request.META['HTTP_REFERER'])
